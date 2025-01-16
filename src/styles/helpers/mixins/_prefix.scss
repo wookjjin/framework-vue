@@ -1,0 +1,10 @@
+@use "sass:map";
+
+$prefix-list: webkit, moz, ms, o;
+
+@mixin auto-prefix($name, $value) {
+  @each $prefix in $prefix-list {
+    -#{$prefix}-#{$name}: $value;
+  }
+  #{$name}: $value;
+}

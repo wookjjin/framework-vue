@@ -1,0 +1,25 @@
+@use "sass:map";
+
+@mixin space($x:null, $y:null) {
+  @if ($x != null) {
+     & > :not([hidden]) ~ :not([hidden]) {
+      margin-left: $x;
+    }
+  }
+  @if ($y != null) {
+     & > :not([hidden]) ~ :not([hidden]) {
+      margin-top: $y;
+    }
+  }
+}
+/* gap 스타일이 필요시 크로스브라우징 이슈로 사용 가능 */
+@mixin gap-margin($x, $y: $x, $mode: null) {
+  @if $mode != null {
+    display: $mode;
+  }
+  margin: (-$y) (-$x) 0 0;
+  & > :not([hidden]) {
+    box-sizing: border-box;
+    margin: $y $x 0 0;
+  }
+}
