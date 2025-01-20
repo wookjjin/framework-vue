@@ -1,10 +1,12 @@
 <script setup lang="ts">
+const route = useRoute()
 
+console.log('route.params', route.params)
 </script>
 
 <template>
   <div>
-    User
+    Detail
   </div>
 </template>
 
