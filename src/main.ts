@@ -1,9 +1,7 @@
 import type { UserModule } from './types/index.ts'
 import { ViteSSG } from 'vite-ssg'
-import { routes } from 'vue-router/auto-routes'
+import routes from '~/router/route.ts'
 import App from './App.vue'
-import router from './router/index.ts'
-
 // `export const createApp` is required instead of the original `createApp(App).mount('#app')`
 export const createApp = ViteSSG(
   // the root component
