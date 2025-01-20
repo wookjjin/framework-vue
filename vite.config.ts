@@ -21,6 +21,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
       vue(),
       AutoImport({
         imports: ['vue', 'vue-router', '@vueuse/core'],
+        dirs: ['src/composables/**', 'src/store', 'src/utils'],
         resolvers: [ElementPlusResolver()],
       }),
       Components({
