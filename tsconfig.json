@@ -20,7 +20,7 @@
       ]
     },
     "resolveJsonModule": true,
-    "types": [],
+    "types": ["unplugin-vue-markdown/vite"],
     "allowJs": true,
     "strict": true,
     "noImplicitOverride": true,
