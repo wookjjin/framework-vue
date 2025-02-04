@@ -1,4 +1,6 @@
 import path from 'node:path'
+import tailwindcss from '@tailwindcss/vite'
+import { unheadVueComposablesImports } from '@unhead/vue'
 import vue from '@vitejs/plugin-vue'
 import MarkdownItAnchor from 'markdown-it-anchor'
 import MarkdownItPrism from 'markdown-it-prism'
@@ -9,6 +11,7 @@ import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 import { defineConfig, loadEnv } from 'vite'
 import Pages from 'vite-plugin-pages'
+import { VitePWA } from 'vite-plugin-pwa'
 // https://vite.dev/config/
 // eslint-disable-next-line unused-imports/no-unused-vars
 export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
@@ -27,9 +30,10 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
       }),
       UnoCSS(),
       AutoImport({
-        imports: ['vue', 'vue-router', '@vueuse/core'],
+        imports: ['vue', 'vue-router', '@vueuse/core', unheadVueComposablesImports],
         dirs: ['src/composables/**', 'src/store', 'src/utils'],
         resolvers: [ElementPlusResolver()],
+        dts: 'src/auto-imports.d.ts',
       }),
       Components({
         resolvers: [ElementPlusResolver()],
@@ -43,6 +47,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
           html: true,
           linkify: true,
           typographer: true,
+          breaks: true,
         },
         markdownItSetup(md) {
           md.use(MarkdownItAnchor)
@@ -56,6 +61,35 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
         extensions: ['vue', 'md'],
 
       }),
+      VitePWA({
+        registerType: 'autoUpdate',
+        injectRegister: 'auto',
+        includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
+        manifest: {
+          name: 'Vitesse',
+          short_name: 'Vitesse',
+          theme_color: '#ffffff',
+          icons: [
+            {
+              src: '/pwa-192x192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: '/pwa-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+            {
+              src: '/pwa-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'any maskable',
+            },
+          ],
+        },
+      }),
+      tailwindcss(),
     ],
     css: {
       preprocessorOptions: {
@@ -68,7 +102,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
 
     ssr: {
       // TODO: workaround until they support native ESM
-      noExternal: ['workbox-window', /vue-i18n/, /element-plus/],
+      noExternal: ['workbox-window', /element-plus/],
     },
   }
 })

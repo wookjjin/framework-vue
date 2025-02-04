@@ -5,7 +5,6 @@ import UserDetail from '~/pages/user/detail.vue'
 
 import UserView from '~/pages/user/index.vue'
 
-const MarkdownPage = () => import('~/pages/guide/index.md')
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -24,7 +23,18 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/guide',
-    component: MarkdownPage,
+    children: [
+      {
+        path: '',
+        name: 'Guide',
+        component: () => import('~/pages/guide/index.md'),
+      },
+      {
+        path: 'vue',
+        name: 'Vue',
+        component: () => import('~/pages/guide/vue.md'),
+      },
+    ],
   },
 ]
 
