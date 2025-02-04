@@ -20,7 +20,12 @@
       ]
     },
     "resolveJsonModule": true,
-    "types": ["unplugin-vue-markdown/vite"],
+    "types": [
+      "vite/client",
+      "unplugin-vue-markdown/vite",
+      "vite-plugin-pwa/client",
+      "@unhead/vue"
+    ],
     "allowJs": true,
     "strict": true,
     "noImplicitOverride": true,
