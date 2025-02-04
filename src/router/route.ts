@@ -2,8 +2,10 @@ import type { RouteRecordRaw } from 'vue-router'
 
 import HomeView from '~/pages/index.vue'
 import UserDetail from '~/pages/user/detail.vue'
+
 import UserView from '~/pages/user/index.vue'
 
+const MarkdownPage = () => import('~/pages/guide/index.md')
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -19,6 +21,10 @@ const routes: Array<RouteRecordRaw> = [
         component: UserDetail,
       },
     ],
+  },
+  {
+    path: '/guide',
+    component: MarkdownPage,
   },
 ]
 
