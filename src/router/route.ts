@@ -34,6 +34,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Vue',
         component: () => import('~/pages/guide/vue.md'),
       },
+      {
+        path: 'proxy',
+        name: 'Proxy',
+        component: () => import('~/pages/guide/proxy.md'),
+      },
     ],
   },
 ]
