@@ -1,9 +1,9 @@
 import path from 'node:path'
+import MarkdownItShiki from '@shikijs/markdown-it'
 import tailwindcss from '@tailwindcss/vite'
 import { unheadVueComposablesImports } from '@unhead/vue'
 import vue from '@vitejs/plugin-vue'
-import MarkdownItAnchor from 'markdown-it-anchor'
-import MarkdownItPrism from 'markdown-it-prism'
+import LinkAttributes from 'markdown-it-link-attributes'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
@@ -49,9 +49,21 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
           typographer: true,
           breaks: true,
         },
-        markdownItSetup(md) {
-          md.use(MarkdownItAnchor)
-          md.use(MarkdownItPrism)
+        async markdownItSetup(md) {
+          md.use(await MarkdownItShiki({
+            themes: {
+              dark: 'vitesse-dark',
+              light: 'vitesse-light',
+            },
+          }))
+
+          md.use(LinkAttributes, {
+            matcher: (link: string) => /^https?:\/\//.test(link),
+            attrs: {
+              target: '_blank',
+              rel: 'noopener',
+            },
+          })
         },
       }),
       Pages({

@@ -3,6 +3,7 @@ import { ViteSSG } from 'vite-ssg'
 import routes from '~/router/route.ts'
 import App from './App.vue'
 import '@unocss/reset/normalize.css'
+import '~/styles/markdown.css'
 import 'virtual:uno.css'
 
 // `export const createApp` is required instead of the original `createApp(App).mount('#app')`
