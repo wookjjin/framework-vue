@@ -39,6 +39,16 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Proxy',
         component: () => import('~/pages/guide/proxy.md'),
       },
+      {
+        path: 'vite-setting',
+        name: 'ViteSetting',
+        component: () => import('~/pages/guide/vite-setting.md'),
+      },
+      {
+        path: 'router',
+        name: 'Router',
+        component: () => import('~/pages/guide/router.md'),
+      },
     ],
   },
 ]
