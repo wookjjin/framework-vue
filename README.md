@@ -2,7 +2,7 @@
 - Vue 3 + Typescript + Vite 기반의 개발 가이드 모음
 
 ## 가이드 구성
-- [] Vue 3의 핵심 개념과 Composition API
+- [✅] Vue 3의 핵심 개념과 Composition API
 - [✅] 프로젝트 설정 및 Vite를 활용한 개발 환경 구성
 - [✅] Vue Router를 활용한 동적 라우팅
 - [] Pinia를 활용한 상태 관리
@@ -22,7 +22,6 @@
 - 🎨 [UnoCSS](https://github.com/antfu/unocss) - the instant on-demand atomic CSS engine
 
 - 🗒 [Markdown Support](https://github.com/antfu/vite-plugin-vue-markdown)
-
 
 ## Usage
 
