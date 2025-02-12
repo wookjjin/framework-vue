@@ -34,3 +34,107 @@ function ref(value) {
   return refObject
 }
 ```
+- reactive: 객체의 반응형 Proxy를 return.
+- ref: 반응형 ref 객체를 return.
+
+|특징|ref|reactive
+|------|---|---|
+|데이터 타입|기본 타입(primitive)과 객체(object) 모두 가능|객체(object)만 가능
+|구조|`.value` 프로퍼티를 통해 접근|원본 객체처럼 직접 접근 가능
+|깊은 반응성|기본적으로 깊은 반응성 제공 (`.value`가 객체일 경우 내부까지 반응형)|자동으로 깊은 반응성 제공
+|구조적 변경|원시값을 새로운 값으로 대체 가능|직접 속성을 변경하는 방식
+|TypeScript 지원|`Ref<T>` 타입 제공|`reactive<T>()` 사용
+
+> 🚦**래핑, 언래핑의 개념이 혼란스러울 경우**
+어떤 값이 ref에 할당되어 있다고 가정합시다. 이 때, .value를 통해 할당된 값에 접근해야 한다면 `래핑`된 것이고, .value 없이 접근된다면 `언래핑`된 것이라고 이해할 수 있습니다.
+
+- Computed: getter 함수를 사용하며, getter로부터 반환된 값을 읽기 전용 반응형 ref 객체로 return.
+- Watch: 하나 이상의 반응형 데이터 소스를 감시하고, 소스가 변경되면 콜백 함수를 호출합니다.(특정 반응형 데이터를 감시하여 변화가 있을 때 동작을 수행)
+
+## 2️⃣ 컴포지션 API (Composition API)
+Vue 3에서 새로 도입된 컴포지션 API는 상태 관리와 로직을 더 유연하고 명확하게 처리할 수 있습니다.
+
+setup(): 컴포넌트의 모든 로직을 정의하는 곳. 여기서 reactive(), ref(), computed(), watch() 등을 사용할 수 있습니다.
+Life Cycle Hooks: onMounted(), onUpdated(), onUnmounted() 등과 같은 라이프사이클 훅을 사용해 컴포넌트의 생명 주기를 관리할 수 있습니다.
+Provide/Inject: 상위 컴포넌트에서 하위 컴포넌트로 데이터를 전달할 때 사용합니다.
+
+Options API:
+```vue
+<script>
+export default {
+  data() {
+    return {
+      name: '',
+      age: 0,
+      aboveAge: false
+    }
+  },
+  computed: {
+    displayProfile() {
+      return `My name is ${this.name} and i am ${this.age}`
+    }
+  },
+  mounted() {
+    console.log('Application mounted')
+  },
+  methods: {
+    verifyUser() {
+      if (this.age < 18) {
+        this.aboveAge = false
+      }
+      else {
+        this.aboveAge = true
+      }
+    },
+  },
+}
+</script>
+```
+
+ Composition API:
+```vue
+<script setup>
+import { onMounted, reactive, ref } from 'vue'
+
+const profile = reactive({ name: '', age: '' })
+const aboveAge = ref(false)
+
+const verifyUser = () => age.value < 18 ? aboveAge.value = false : aboveAge.value = true
+
+const displayProfile = computed(() => {
+  return `My name is ${this.name} and i am ${this.age}`
+})
+
+onMounted (() => console.log('Application mounted'))
+</script>
+```
+
+특징:
+Options API는 OOP 언어 배경을 가진 사용자를 위한 클래스 기반 모델과 더 잘 맞는 "컴포넌트 인스턴스"(예제에서 볼 수 있는 this)의 개념을 중심으로 합니다.
+
+컴포지션(Composition) API는 옵션을 선언하는 대신 import한 함수를 사용하여 Vue 컴포넌트를 작성할 수 있는 API 세트입니다. 컴포넌트 로직을 유연하게 구성할 수 있도록하여 재사용성과 가독성을 높여줍니다.
+
+## 3️⃣ 템플릿과 렌더링 (Template and Rendering)
+Vue 3에서의 템플릿은 매우 직관적입니다.
+
+템플릿 구문: HTML처럼 보이지만, Vue의 디렉티브(v-if, v-for, v-bind, v-model 등)와 결합됩니다.
+슬롯: 자식 컴포넌트에서 부모 컴포넌트로 동적으로 내용을 전달할 수 있는 기능.
+v-bind 및 v-model: 동적으로 속성을 바인딩하거나, 양방향 바인딩을 할 수 있습니다.
+Teleport: 컴포넌트의 위치를 변경하여 다른 DOM 요소에 렌더링할 수 있습니다.
+
+## 4️⃣ 라우팅 (Routing)
+Vue 3에서 Vue Router를 사용하면 URL에 따라 컴포넌트를 동적으로 로드할 수 있습니다.
+
+Dynamic Routes: 동적 라우트를 설정하고, URL 파라미터를 통해 컴포넌트에 데이터를 전달할 수 있습니다.
+Lazy Loading: 라우터의 컴포넌트를 필요한 시점에만 로드할 수 있도록 설정할 수 있습니다.
+
+## 5️⃣ 상태 관리 (State Management)
+Vue 3에서는 Pinia가 기본적인 상태 관리 솔루션으로 사용됩니다. Vuex 대신 더 간단하고 직관적인 API를 제공해.
+
+Pinia: Vue 3의 Composition API와 잘 통합되어 있으며, 중앙 집중식 상태 관리에 이상적입니다.
+
+## 6️⃣  TypeScript 지원 (TypeScript Support)
+Vue 3는 TypeScript를 기본적으로 지원해서 타입 안전성을 제공합니다.
+
+타입 추론: Vue의 템플릿 및 컴포넌트가 TypeScript와 잘 통합됩니다.
+컴포지션 API와 TypeScript: ref(), reactive(), computed() 등을 타입 안정성을 갖고 사용할 수 있습니다.
