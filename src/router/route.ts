@@ -27,27 +27,32 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'Guide',
-        component: () => import('~/pages/guide/index.md'),
+        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/index.md'),
       },
       {
         path: 'vue',
         name: 'Vue',
-        component: () => import('~/pages/guide/vue.md'),
+        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/vue.md'),
       },
       {
         path: 'proxy',
         name: 'Proxy',
-        component: () => import('~/pages/guide/proxy.md'),
+        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/proxy.md'),
       },
       {
         path: 'vite-setting',
         name: 'ViteSetting',
-        component: () => import('~/pages/guide/vite-setting.md'),
+        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/vite-setting.md'),
       },
       {
         path: 'router',
         name: 'Router',
-        component: () => import('~/pages/guide/router.md'),
+        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/router.md'),
+      },
+      {
+        path: 'pinia',
+        name: 'Pinia',
+        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/pinia.md'),
       },
     ],
   },
