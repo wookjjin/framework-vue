@@ -29,7 +29,7 @@
 🔀 Vue Router를 사용하여 동적 네비게이션 구현
 
 ✅ **Pinia를 활용한 상태 관리**
-📦 Pinia를 활용한 상태 관리 및 Vuex 대체
+🍍 Pinia를 활용한 상태 관리 및 Vuex 대체
 
 ✅ **TypeScript와 함께 Vue를 사용하는 방법**
 📜 Vue 3에서 TypeScript를 사용하여 안정적인 코드 작성
@@ -53,3 +53,4 @@
 - [Vue 3의 주요 개념과 Composition API의 활용법](/guide/vue)
 - [빠르고 최적화된 Vite 기반 Vue 프로젝트 세팅](/guide/vite-setting)
 - [Vue Router를 사용하여 동적 네비게이션 구현](/guide/router)
+- [Pinia를 활용한 상태 관리 및 Vuex 대체](/guide/pinia)
