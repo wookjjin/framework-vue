@@ -6,12 +6,14 @@ import vue from '@vitejs/plugin-vue'
 import LinkAttributes from 'markdown-it-link-attributes'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
+// UI Libray Treeshaking
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 import { defineConfig, loadEnv } from 'vite'
 import Pages from 'vite-plugin-pages'
 import { VitePWA } from 'vite-plugin-pwa'
+
 // https://vite.dev/config/
 // eslint-disable-next-line unused-imports/no-unused-vars
 export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
