@@ -3,11 +3,17 @@
   NODE_VERSION = "22"
 
 [build]
+  command = "pnpm install --shamefully-hoist && pnpm run build"
   publish = "dist"
-  command = "pnpm install && pnpm run build"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    X-Frame-Options = "DENY"
+    Content-Security-Policy = "default-src 'self'"
