@@ -1,10 +1,15 @@
 <script setup lang="ts">
-
+const router = useRouter()
+const goGuide = () => {
+  router.push('/guide')
+}
 </script>
 
 <template>
   <div>
-    Home
+    <button type="button" @click="goGuide">
+      Guide 바로가기 >
+    </button>
   </div>
 </template>
 

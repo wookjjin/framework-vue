@@ -22,7 +22,7 @@ code .
 pnpm add -D unplugin-auto-import
 ```
 
-```typescript
+```vue
 // vite.config.ts
 import AutoImport from 'unplugin-auto-import/vite'
 import { defineConfig } from 'vite'
@@ -31,7 +31,6 @@ export default defineConfig({
   AutoImport({
     imports: ['vue']
 })
-
 ```
 
 ## 3️⃣ 더 많은 플러그인 찾기
