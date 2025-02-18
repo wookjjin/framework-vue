@@ -35,12 +35,12 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
         imports: ['vue', 'vue-router', '@vueuse/core', unheadVueComposablesImports],
         dirs: ['src/composables/**', 'src/store', 'src/utils'],
         resolvers: [ElementPlusResolver()],
-        dts: 'src/auto-imports.d.ts',
+        dts: './src/auto-imports.d.ts',
       }),
       Components({
         resolvers: [ElementPlusResolver()],
         include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-        dts: 'src/components.d.ts',
+        dts: './src/components.d.ts',
       }),
       Markdown({
         wrapperClasses: 'prose prose-sm m-auto text-left',
