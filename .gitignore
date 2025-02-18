@@ -25,3 +25,6 @@ components.d.ts
 *.njsproj
 *.sln
 *.sw?
+
+# Local Netlify folder
+.netlify

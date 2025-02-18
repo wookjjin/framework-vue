@@ -1,7 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
 
-import UserDetail from '~/pages/user/detail.vue'
-
 import UserView from '~/pages/user/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -17,10 +15,6 @@ const routes: Array<RouteRecordRaw> = [
         path: 'user',
         name: 'User',
         component: UserView,
-      },
-      {
-        path: 'user/:id',
-        component: UserDetail,
       },
     ],
   },
