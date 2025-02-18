@@ -1,0 +1,13 @@
+[build.environment]
+  NPM_FLAGS = "--legacy-peer-deps"
+  NODE_VERSION = "22"
+
+[build]
+  publish = "dist"
+  command = "pnpm install && pnpm run build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
