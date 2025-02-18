@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useHead } from '@unhead/vue'
+import { computed } from 'vue'
+import { isDark, preferredDark } from '~/composables/dark'
+
 useHead({
   title: 'Framework Vue',
   meta: [
