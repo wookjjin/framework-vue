@@ -1,5 +1,5 @@
 [build.environment]
-  NPM_FLAGS = "--version"
+  NPM_FLAGS = "--shamefully-hoist"
   NODE_VERSION = "22"
 
 [build]
