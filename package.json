@@ -46,6 +46,7 @@
     "vite-plugin-pages": "^0.32.4",
     "vite-plugin-pwa": "^0.21.1",
     "vite-ssg": "^25.0.0",
-    "vue-tsc": "^2.2.2"
+    "vue-tsc": "^2.2.2",
+    "workbox-window": "^7.3.0"
   }
 }
