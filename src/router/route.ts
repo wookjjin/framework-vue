@@ -51,6 +51,21 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Pinia',
         component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/pinia.md'),
       },
+      {
+        path: 'typescript',
+        name: 'Typescript',
+        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/typescript.md'),
+      },
+      {
+        path: 'life-cycle',
+        name: 'LifeCycle',
+        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/life-cycle.md'),
+      },
+      {
+        path: 'tree-shaking',
+        name: 'TreeShaking',
+        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/tree-shaking.md'),
+      },
     ],
   },
 ]

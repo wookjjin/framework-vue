@@ -58,6 +58,7 @@ setup(): 컴포넌트의 모든 로직을 정의하는 곳. 여기서 reactive()
 Life Cycle Hooks: onMounted(), onUpdated(), onUnmounted() 등과 같은 라이프사이클 훅을 사용해 컴포넌트의 생명 주기를 관리할 수 있습니다.
 Provide/Inject: 상위 컴포넌트에서 하위 컴포넌트로 데이터를 전달할 때 사용합니다.
 
+🔎 [LifeCycle hooks](/guide/life-cycle) 란?
 Options API:
 ```vue
 <script>
