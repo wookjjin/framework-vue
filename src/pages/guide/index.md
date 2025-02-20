@@ -54,3 +54,4 @@
 - [빠르고 최적화된 Vite 기반 Vue 프로젝트 세팅](/guide/vite-setting)
 - [Vue Router를 사용하여 동적 네비게이션 구현](/guide/router)
 - [Pinia를 활용한 상태 관리 및 Vuex 대체](/guide/pinia)
+- [Vue 3에서 TypeScript를 사용하여 안정적인 코드 작성](/guide/typescript)

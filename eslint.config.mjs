@@ -18,6 +18,14 @@ export default antfu(
     files: ['**/*.ts'],
     rules: {
       'node/prefer-global/process': 'off',
+      'ts/consistent-type-definitions': 'off',
+    },
+  },
+  {
+    files: ['**/*.md'],
+    rules: {
+      'no-var': 'off',
+      'dot-notation': 'off',
     },
   },
 )
