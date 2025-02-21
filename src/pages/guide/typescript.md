@@ -162,6 +162,40 @@ color = Color.Red // ✅ 올바른 사용
 color = 'RED' // ✅ 올바른 사용
 color = 'YELLOW' // ❌ 오류 발생
 ```
+
+<details>
+<summary>예시코드</summary>
+
+```vue
+<script setup lang="ts">
+function getOrderCdInfo(orderCd: string): { label: string, color: string } | undefined {
+  const orderCdMap: { [key: string]: { label: string, color: string } } = {
+    ORDER: { label: '주문 접수', color: 'orange' },
+    READY: { label: '배송 준비', color: 'orange' },
+    RETURN: { label: '배송 실패', color: 'gray' },
+    DELIVER: { label: '배송 중', color: 'blue' },
+    COMPLETED: { label: '배송 완료', color: 'gray' },
+    CANCEL: { label: '취소 완료', color: 'gray' },
+  } as const
+
+  return orderCdMap[orderCd]
+}
+</script>
+
+<template>
+  <div class="flex space-x-[5px]">
+    <span class="chip__line--gray">{{ getOrderTypeLabel(detailInfo.orderType) }}</span>
+    <span
+      v-if="getOrderCdInfo(detailInfo.orderCd)"
+      :class="`chip__full--${getOrderCdInfo(detailInfo.orderCd)?.color}`"
+    >
+      {{ getOrderCdInfo(detailInfo.orderCd)?.label }}
+    </span>
+  </div>
+</template>
+```
+</details>
+
 🔎 [tree-shaking](/guide/tree-shaking)
 
 5. Vue3 환경에서 TS 사용하기

@@ -17,8 +17,8 @@ import { VitePWA } from 'vite-plugin-pwa'
 // https://vite.dev/config/
 // eslint-disable-next-line unused-imports/no-unused-vars
 export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
+  // eslint-disable-next-line unused-imports/no-unused-vars
   const env = loadEnv(mode, process.cwd(), '')
-  console.log(env)
 
   return {
     resolve: {
