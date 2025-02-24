@@ -66,6 +66,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'TreeShaking',
         component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/tree-shaking.md'),
       },
+      {
+        path: 'component',
+        name: 'Component',
+        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/component.md'),
+      },
     ],
   },
 ]

@@ -55,10 +55,10 @@ function ref(value) {
 Vue 3에서 새로 도입된 컴포지션 API는 상태 관리와 로직을 더 유연하고 명확하게 처리할 수 있습니다.
 
 setup(): 컴포넌트의 모든 로직을 정의하는 곳. 여기서 reactive(), ref(), computed(), watch() 등을 사용할 수 있습니다.
-Life Cycle Hooks: onMounted(), onUpdated(), onUnmounted() 등과 같은 라이프사이클 훅을 사용해 컴포넌트의 생명 주기를 관리할 수 있습니다.
-Provide/Inject: 상위 컴포넌트에서 하위 컴포넌트로 데이터를 전달할 때 사용합니다.
 
-🔎 [LifeCycle hooks](/guide/life-cycle) 란?
+<details>
+<summary>문법 비교</summary>
+
 Options API:
 ```vue
 <script>
@@ -108,12 +108,127 @@ const displayProfile = computed(() => {
 
 onMounted (() => console.log('Application mounted'))
 </script>
-```
 
 특징:
 Options API는 OOP 언어 배경을 가진 사용자를 위한 클래스 기반 모델과 더 잘 맞는 "컴포넌트 인스턴스"(예제에서 볼 수 있는 this)의 개념을 중심으로 합니다.
 
 컴포지션(Composition) API는 옵션을 선언하는 대신 import한 함수를 사용하여 Vue 컴포넌트를 작성할 수 있는 API 세트입니다. 컴포넌트 로직을 유연하게 구성할 수 있도록하여 재사용성과 가독성을 높여줍니다.
+```
+</details>
+
+Life Cycle Hooks: onMounted(), onUpdated(), onUnmounted() 등과 같은 라이프사이클 훅을 사용해 컴포넌트의 생명 주기를 관리할 수 있습니다.
+
+🔎 [LifeCycle hooks](/guide/life-cycle) 란?
+
+Provide/Inject: 상위 컴포넌트에서 하위 컴포넌트로 데이터를 전달할 때 사용합니다.
+
+### 🤩 defineModel(Vue 3.4 >)
+`defineModel`은 `v-model`과 동일한 양방향 데이터 바인딩 패턴으로, Composition API에서 데이터 흐름 관리를 더욱 효과적으로 도와주는 함수입니다. `defineProps`와 `defineEmits`를 자동으로 설정하여 코드 작성이 간결해지며, Vue 3.3 이상에서 사용할 수 있습니다.
+
+<details>
+<summary>종속 버전</summary>
+
+- Volar / vue-tsc@^1.8.27 (필수)
+- @vitejs/plugin-vue@^5.0.0 (Vite를 사용하는 경우)
+- nuxt@^3.9.0 (Nuxt를 사용하는 경우)
+- vue-loader@^17.4.0 (webpack 또는 vue-cli를 사용하는 경우)
+</details>
+
+#### defineModel 이전의 데이터 흐름 방식
+부모 컴포넌트에서 자식 컴포넌트로 데이터를 전달할 때 `props`를 사용하고, 자식 컴포넌트 `emit`을 통해 이벤트를 발생시켜 부모 컴포넌트로 데이터를 전달합니다. 이 방식은 직관적이지만, 데이터 흐름이 복잡해지거나 컴포넌트가 중첩된 경우 유지보수가 힘들다는 단점이 있습니다.
+
+#### defineModel 사용하기
+
+<details>
+<summary>코드 비교</summary>
+
+props & emit
+```vue
+<!-- Input.vue -->
+<script setup lang="ts">
+const props = defineProps<{ modelValue: string }>()
+
+// # case 1
+// const modelValue = computed({
+//   get: () => props.modelValue,
+//   set: (value) => emit('update:modelValue', value),
+// })
+
+// # case 2
+const emit = defineEmits(['update:value'])
+
+function onInput(e) {
+  emit('update:value', e.target.value)
+}
+</script>
+
+<template>
+  <div class="input-primary">
+    <input type="text" placeholder="입력하세요." :value="modelValue" @input="onInput">
+  </div>
+</template>
+```
+
+defineModel
+```vue
+<script setup lang="ts">
+export interface Props {
+  type: 'text' | 'password'
+}
+withDefaults(defineProps<Props>(), {
+})
+
+const model = defineModel()
+</script>
+
+<template>
+  <div class="input-primary">
+    <input
+      type="text"
+      placeholder="입력하세요."
+      :value="model"
+    >
+  </div>
+</template>
+```
+</details>
+
+#### defineModel arguments
+```js
+// v-model을 필수로 만들기
+const model1 = defineModel({ required: true })
+
+// 기본값 제공
+const model2 = defineModel({ default: 0 })
+```
+```ts
+// 첫 번째 인자로 전달하는 name은 props의 이름으로 사용됩니다.
+const title = defineModel<string>('title')
+
+// 내부 동작
+defineProps<{ title: string }>()
+defineEmits<{ (event: 'update:title', value: string): void }>()
+```
+
+<details>
+<summary>예시</summary>
+
+```vue
+<!-- Child Component -->
+<script setup lang="ts">
+const title = defineModel<string>('title')
+</script>
+
+<template>
+  <input v-model="title">
+</template>
+
+<!-- Parent Component -->
+<ChildComponent v-model:title="parentTitle" />
+```
+</details>
+
+🔎 [v-model-modifiers](https://ko.vuejs.org/guide/components/v-model#handling-v-model-modifiers)
 
 ## 3️⃣ 템플릿과 렌더링 (Template and Rendering)
 Vue 3에서의 템플릿은 매우 직관적입니다.
