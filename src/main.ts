@@ -4,6 +4,7 @@ import { setupMockServer } from '~/composables/mock.ts'
 import routes from '~/router/route.ts'
 import App from './App.vue'
 import '@unocss/reset/normalize.css'
+import '~/styles/main.css'
 import '~/styles/markdown.css'
 
 import 'virtual:uno.css'

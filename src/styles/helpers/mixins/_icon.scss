@@ -1,3 +1,0 @@
-@mixin icon($name, $size: '100%', $path: '/src/assets/images/', $format: 'svg') {
-  background: url('/icon/#{$name}.#{$format}') no-repeat center center/#{$size};
-}
