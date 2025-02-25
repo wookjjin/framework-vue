@@ -1,6 +1,5 @@
 import path from 'node:path'
 import MarkdownItShiki from '@shikijs/markdown-it'
-import tailwindcss from '@tailwindcss/vite'
 import { unheadVueComposablesImports } from '@unhead/vue'
 import vue from '@vitejs/plugin-vue'
 import LinkAttributes from 'markdown-it-link-attributes'
@@ -103,16 +102,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
           ],
         },
       }),
-      tailwindcss(),
     ],
-    css: {
-      preprocessorOptions: {
-        scss: {
-          api: 'modern',
-          additionalData: '@use "~/styles/helpers/_variables.scss" as *;',
-        },
-      },
-    },
 
     ssr: {
       // TODO: workaround until they support native ESM
