@@ -230,3 +230,5 @@ const emit = defineEmits<{
 - 유지보수를 위해 서비스(메뉴)별로 ts 파일을 각각 생성하여 타입을 지정합니다.
 - interface로 지정한 타입은 `I`를 접두사로하여 타입 지정을 합니다. ex) intreface IButtonProps
 - type으로 지정한 타입은 `T`를 접두사로하여 타입 지정을 합니다. ex) type TUserId
+
+[비동기처리](/guide/async)
