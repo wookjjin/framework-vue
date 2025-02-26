@@ -59,7 +59,7 @@ const inputInstance = ref<HTMLInputElement>()
   <div>
     <label :class="{ 'is-required': required }">{{ label }}</label>
     <div :class="`size-${size}`">
-      <input ref="inputInstance" v-model="model" :type="text" :placeholder="placeholder" :disabled="disabled" :minlength="minlength" :maxlength="maxlength" :readonly="readonly">
+      <input ref="inputInstance" v-model="model" :type="type" :placeholder="placeholder" :disabled="disabled" :minlength="minlength" :maxlength="maxlength" :readonly="readonly">
       <div v-if="clearable && model">
         <button>
           <icon name="clear__full--abb" width="24" height="24" />

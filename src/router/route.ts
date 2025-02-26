@@ -71,6 +71,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Component',
         component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/component.md'),
       },
+      {
+        path: 'async',
+        name: 'Async',
+        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/async.md'),
+      },
     ],
   },
 ]
