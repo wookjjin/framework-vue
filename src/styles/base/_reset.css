@@ -145,7 +145,7 @@ input {
     }
   }
 
-  // 브라우저 기본 input 자동완성 autofill 없애는 스타일
+  /* 브라우저 기본 input 자동완성 autofill 없애는 스타일 */
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,

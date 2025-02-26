@@ -6,7 +6,6 @@ import LinkAttributes from 'markdown-it-link-attributes'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 // UI Libray Treeshaking
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 import { defineConfig, loadEnv } from 'vite'
@@ -33,11 +32,9 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
       AutoImport({
         imports: ['vue', 'vue-router', '@vueuse/core', unheadVueComposablesImports],
         dirs: ['src/composables/**', 'src/store', 'src/utils'],
-        resolvers: [ElementPlusResolver()],
         dts: './src/auto-imports.d.ts',
       }),
       Components({
-        resolvers: [ElementPlusResolver()],
         include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
         dts: './src/components.d.ts',
       }),
