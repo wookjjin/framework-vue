@@ -1,5 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
-import DefaultLayout from '~/layouts/defatul.vue'
+import DefaultLayout from '~/layouts/default.vue'
 import UserView from '~/pages/user/index.vue'
 
 const routes: Array<RouteRecordRaw> = [

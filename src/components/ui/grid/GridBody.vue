@@ -7,32 +7,85 @@ export interface Column {
   sortable?: boolean
 }
 
-const props = withDefaults(defineProps<{
-  columns: Column[]
-  rows: Record<string, any>[]
-}>(), {
-  rows: () => [],
-})
+const props = withDefaults(
+  defineProps<{
+    columns: Column[]
+    rows: Record<string, any>[]
+    useCheckbox?: boolean
+  }>(),
+  {
+    rows: () => [],
+    useCheckbox: false,
+  },
+)
 
 const emits = defineEmits<{
   (event: 'columnClickEvent', column: Column): void
   (event: 'rowClickEvent', row: Record<string, any>): void
-  (event: 'sortChange', columnKey: string, direction: 'asc' | 'desc' | null): void
+  (event: 'sortChangeEvent', columnKey: string, direction: 'asc' | 'desc' | 'default'): void
+  (event: 'update:selectedRows', selectedRows: Record<string, any>[]): void
 }>()
 
-const visibleColumns = computed(() => props.columns.filter(column => column.visible !== false))
+const visibleColumns = computed<Column[]>(() => {
+  const cols = props.columns.map(column => ({
+    ...column,
+    align: column.align ?? 'left',
+  }))
+  return props.useCheckbox ? [{ key: 'checkbox', label: '', align: 'center' }, ...cols] : cols
+})
 
-const activeSort = ref<{ key: string, direction: 'asc' | 'desc' | null }>({ key: '', direction: null })
+const activeSort = ref<{ key: string, direction: 'asc' | 'desc' | 'default' }>({
+  key: '',
+  direction: 'default',
+})
+
+const selectedRows = ref<Record<string, any>[]>([])
+
+const isAllChecked = computed(() => {
+  if (props.rows.length === 0)
+    return false
+  return selectedRows.value.length === props.rows.length
+})
+
+const isIndeterminate = computed(() => {
+  return selectedRows.value.length > 0 && selectedRows.value.length < props.rows.length
+})
+
+const toggleAllSelection = () => {
+  if (isAllChecked.value) {
+    selectedRows.value = []
+  }
+  else {
+    selectedRows.value = [...props.rows]
+  }
+  emits('update:selectedRows', selectedRows.value)
+}
+
+const toggleRowSelection = (row: Record<string, any>) => {
+  const index = selectedRows.value.findIndex(selectedRow => selectedRow === row)
+  if (index > -1) {
+    selectedRows.value.splice(index, 1)
+  }
+  else {
+    selectedRows.value.push(row)
+  }
+  emits('update:selectedRows', selectedRows.value)
+}
 
 const columnClickEvent = (column: Column) => {
   emits('columnClickEvent', column)
+}
+
+const sortColumnEvent = (column: Column) => {
+  if (!column.sortable)
+    return
+
   if (activeSort.value.key === column.key) {
     if (activeSort.value.direction === 'asc') {
       activeSort.value.direction = 'desc'
     }
     else if (activeSort.value.direction === 'desc') {
-      activeSort.value.key = ''
-      activeSort.value.direction = null
+      activeSort.value.direction = 'default'
     }
     else {
       activeSort.value.direction = 'asc'
@@ -42,7 +95,7 @@ const columnClickEvent = (column: Column) => {
     activeSort.value.key = column.key as string
     activeSort.value.direction = 'asc'
   }
-  emits('sortChange', activeSort.value.key, activeSort.value.direction)
+  emits('sortChangeEvent', activeSort.value.key, activeSort.value.direction)
 }
 
 const rowClickEvent = (row: Record<string, any>) => {
@@ -52,47 +105,43 @@ const rowClickEvent = (row: Record<string, any>) => {
 
 <template>
   <div class="grid-body-container">
-    <table>
-      <thead>
-        <tr>
-          <th
-            v-for="column in visibleColumns" :key="column.key" :style="{ textAlign: column.align || 'left' }"
-            @click="columnClickEvent(column)"
-          >
-            <span class="column-header">
-              {{ column.label }}
-              <span
-                class="sort-icon"
-                :class="{ active: (activeSort.key === column.key) && column.sortable }"
-              >
-                <span v-if="activeSort.key === column.key">
-                  <span v-if="activeSort.direction === 'asc'">
-                    ▲
-                  </span>
-                  <span v-else-if="activeSort.direction === 'desc'">
-                    ▼
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th v-if="useCheckbox">
+              <input type="checkbox" :checked="isAllChecked" :indeterminate="isIndeterminate"
+                @change="toggleAllSelection">
+            </th>
+            <th v-for="column in visibleColumns" :key="`grid-column-${column.key}`"
+              :style="{ textAlign: column.align || 'left' }" @click.stop="columnClickEvent(column)">
+              <span class="column-header" @click.stop="sortColumnEvent(column)">
+                <span class="column-label">{{ column.label }}</span>
+                <span class="sort-icon" :class="{ active: activeSort.key === column.key && column.sortable }">
+                  <span v-if="activeSort.key === column.key">
+                    <span v-if="activeSort.direction === 'asc'">▲</span>
+                    <span v-else-if="activeSort.direction === 'desc'">▼</span>
                   </span>
                 </span>
               </span>
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(row, index) in rows" :key="`grid-row-${index}`">
-          <td
-            v-for="column in visibleColumns" :key="column.key" :style="{ textAlign: column.align || 'left' }"
-            @click="rowClickEvent(row)"
-          >
-            <slot :name="column.key" :row="row">
-              <span>
-                {{ row[column.key] }}
-              </span>
-            </slot>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(row, index) in rows" :key="`grid-row-${index}`">
+            <td v-if="useCheckbox" class="checkbox-cell">
+              <input type="checkbox" :checked="selectedRows.includes(row)" @change="toggleRowSelection(row)">
+            </td>
+            <td v-for="column in visibleColumns" :key="`grid-column-${column.key}`"
+              :style="{ textAlign: column.align || 'left' }" @click.stop="rowClickEvent(row)">
+              <slot :name="column.key" :row="row">
+                <span>{{ row[column.key] }}</span>
+              </slot>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -102,7 +151,7 @@ const rowClickEvent = (row: Record<string, any>) => {
   flex-direction: column;
   background-color: #fff;
   border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
   max-width: 100%;
   overflow-x: auto;
   min-height: 500px;
@@ -116,40 +165,71 @@ table {
 }
 
 thead {
-  background-color: #f1f5f9;
+  background-color: #d4e9dc;
 }
 
 th {
+  height: 30px;
   padding: 12px;
-  text-align: left;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #333;
-  border-bottom: 2px solid #007bff;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  text-align: center;
+  border-bottom: 2px solid #a8d5ba;
 }
 
 .column-header {
   display: flex;
+  font-weight: 600;
   align-items: center;
-  justify-content: center;
-  gap: 5px;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.column-label {
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sort-icon {
+  flex: 1;
   font-size: 10px;
-  width: 8px;
+  width: 12px;
   display: inline-block;
   text-align: center;
+  padding-left: 12px;
+  position: absolute;
+  right: 5px;
   visibility: hidden;
+  flex-shrink: 0;
 }
 
 .sort-icon.active {
   visibility: visible;
 }
 
+th:hover {
+  cursor: pointer;
+  color: #2c3e50;
+}
+
+th:hover .column-label {
+  color: #2c3e50;
+}
+
+th:hover .sort-icon {
+  color: #2c3e50;
+}
+
 th span:hover {
   cursor: pointer;
-  color: #007bff;
+  color: #a8d5ba;
 }
 
 td {
@@ -161,22 +241,76 @@ td {
 }
 
 tbody tr {
-  border-bottom: 1px solid #99c2ff;
+  border-bottom: 1px solid #a8d5ba;
   transition: transform 0.2s ease-in-out
 }
 
 tbody tr:hover {
   cursor: pointer;
   background-color: #f1f5f9;
-  transform: scale(1.02);
+  box-shadow: inset 2px 0 0 #4f8a5a, inset -2px 0 0 #4f8a5a;
+  color: #a8d5ba;
 }
 
-tbody tr:hover td {
-  color: #0056b3;
+.checkbox-cell {
+  cursor: default !important;
+  background-color: transparent !important;
 }
 
 tbody tr:last-child {
   border-bottom: none;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #4f8a5a;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  background-color: white;
+  transition: all 0.2s ease-in-out;
+  vertical-align: middle;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #4f8a5a;
+  border-color: #4f8a5a;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✔";
+  font-size: 12px;
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+input[type="checkbox"]:indeterminate {
+  background-color: #4f8a5a;
+  border-color: #4f8a5a;
+}
+
+input[type="checkbox"]:indeterminate::after {
+  content: "—";
+  font-size: 14px;
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+input[type="checkbox"]:disabled {
+  background-color: #ddd;
+  border-color: #bbb;
+  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {
