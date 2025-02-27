@@ -109,6 +109,14 @@ const routes: Array<RouteRecordRaw> = [
         props: true,
       },
       {
+        path: 'input',
+        name: 'InputComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "input" */ '~/pages/component/input/index.vue'
+          ),
+      },
+      {
         path: 'grid',
         name: 'GridComponent',
         component: () =>
