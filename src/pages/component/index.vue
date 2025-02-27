@@ -4,6 +4,10 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const componentMenus = [
   {
+    name: 'Input',
+    id: 'input',
+  },
+  {
     name: 'Grid',
     id: 'grid',
   },
