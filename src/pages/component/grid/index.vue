@@ -2,11 +2,60 @@
 import type { Column } from '~/components/ui/grid/GridBody.vue'
 import type { TotalCount } from '~/components/ui/grid/GridHeader.vue'
 import GridBody from '~/components/ui/grid/GridBody.vue'
-import GridFooter from '~/components/ui/grid/GridFooter.vue'
 import GridHeader from '~/components/ui/grid/GridHeader.vue'
 import { maskPhoneNumber } from '~/utils'
+import type { LimitOption } from '~/components/ui/pagination/Pagination.vue'
+import Pagination from '~/components/ui/pagination/Pagination.vue'
+
+interface MockRow {
+  name: string
+  age: number
+  rank: string
+  genderCode: string
+  gender: string
+  department: string
+  residence: string
+  cellPhone: string | number
+}
+
+export interface PageLimit {
+  label: string
+  value: number
+}
+
+export interface PageProps {
+  totalPageCount: number
+  pageVisibleCount: number
+}
+
+export interface PageParams {
+  currentPage: number
+  currentPageLimit: number
+}
+
+const pageLimitOptions = ref<LimitOption<PageLimit>[]>([
+  {
+    label: '10개씩 보기',
+    value: 10,
+  },
+  {
+    label: '30개씩 보기',
+    value: 30,
+  },
+  {
+    label: '50개씩 보기',
+    value: 50,
+  },
+])
+
+const pageVisibleCount = ref<number>(10)
+const pageParams = ref<PageParams>({
+  currentPage: 1,
+  currentPageLimit: 10,
+})
 
 const totalCount = ref<TotalCount>(1000)
+const selectedRows = ref<MockRow[]>([])
 
 const columns = ref<Column[]>([
   {
@@ -53,17 +102,6 @@ const columns = ref<Column[]>([
   },
 ])
 
-interface MockRow {
-  name: string
-  age: number
-  rank: string
-  genderCode: string
-  gender: string
-  department: string
-  residence: string
-  cellPhone: string | number
-}
-
 const mockRows = ref<MockRow[]>([
   {
     name: '박세진',
@@ -95,14 +133,36 @@ const mockRows = ref<MockRow[]>([
     residence: '경기도 의정부시 **동',
     cellPhone: '01012345678',
   },
+  {
+    name: '이민우',
+    age: 5,
+    rank: '선임',
+    genderCode: 'male',
+    gender: '남',
+    department: 'UX STUDIO TF',
+    residence: '서울시 은평구 xx동',
+    cellPhone: '01012345678',
+  },
 ])
 
 const columnClickEvent = (column: Column) => {
   console.log('column result >>>', column)
 }
 
+const sortChangeEvent = (targetColumn: string, sortDirection: string) => {
+  console.log(`target-column ::${targetColumn} , sortDirection :: ${sortDirection}`)
+}
+
 const rowClickEvent = (row: MockRow) => {
   console.log('row result >>>', row)
+}
+
+const getSelectedRows = (selectedRows: MockRow[]) => {
+  console.log('selected row result >>', selectedRows)
+}
+
+const pageChangeEvent = (page: number) => {
+  console.log('current page >>>',page)
 }
 </script>
 
@@ -110,15 +170,22 @@ const rowClickEvent = (row: MockRow) => {
   <div class="grid-container">
     <div class="grid-wrapper">
       <GridHeader :total-count="totalCount" total-label="Total" />
-      <GridBody :columns="columns" :rows="mockRows" @column-click-event="columnClickEvent"
-        @row-click-event="rowClickEvent">
+      <GridBody v-model:selected-rows="selectedRows" :columns="columns" :rows="mockRows" :use-checkbox="true"
+        @update:selected-rows="getSelectedRows(selectedRows)" @column-click-event="columnClickEvent"
+        @sort-change-event="sortChangeEvent" @row-click-event="rowClickEvent">
         <template #cellPhone="{ row }">
           <span>
             {{ maskPhoneNumber(row.cellPhone) }}
           </span>
         </template>
       </GridBody>
-      <GridFooter />
+      <Pagination
+        :total-count="totalCount"
+        :page-visible-count="pageVisibleCount"
+        :current-page="pageParams.currentPage"
+        :current-page-limit="pageParams.currentPageLimit"
+        @page-change-event="pageChangeEvent"
+      />
     </div>
   </div>
 </template>

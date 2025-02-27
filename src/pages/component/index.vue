@@ -34,7 +34,6 @@ const goToComponent = (id: string) => {
 </template>
 
 <style scoped lang="scss">
-/* 전체 컨테이너: 화면 중앙 정렬 */
 .menu-container {
   display: flex;
   justify-content: center;
@@ -43,7 +42,6 @@ const goToComponent = (id: string) => {
   background-color: #f4f4f4;
 }
 
-/* 메뉴 박스 */
 .menu-wrapper {
   background: white;
   padding: 24px;
@@ -53,7 +51,6 @@ const goToComponent = (id: string) => {
   width: 320px;
 }
 
-/* 제목 스타일 */
 .menu-title {
   font-size: 22px;
   font-weight: bold;
@@ -61,7 +58,6 @@ const goToComponent = (id: string) => {
   color: #333;
 }
 
-/* 리스트 스타일 */
 .menu-list {
   list-style: none;
   padding: 0;
@@ -70,7 +66,6 @@ const goToComponent = (id: string) => {
   gap: 12px;
 }
 
-/* 메뉴 아이템 */
 .menu-item {
   background: #f5f5f5;
   padding: 14px;
@@ -82,7 +77,7 @@ const goToComponent = (id: string) => {
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    background: #007bff;
+    background: #a8d5ba;
     color: #fff;
     transform: translateY(-3px);
     box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
