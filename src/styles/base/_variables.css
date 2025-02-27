@@ -1,0 +1,12 @@
+:root {
+  --primary-green: #a8d5ba;
+  /* 메인 파스텔 그린 */
+  --light-green: #e1f0e5;
+  /* 밝은 파스텔 그린 */
+  --dark-green: #7fb693;
+  /* 어두운 파스텔 그린 */
+  --text-color: #4a6d5a;
+  /* 텍스트 컬러 */
+  --bg-color: #f5f9f7;
+  /* 배경 컬러 */
+}
