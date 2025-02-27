@@ -9,7 +9,8 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'Home',
-        component: () => import(/* webpackChunkName: "home" */ '~/pages/index.vue'),
+        component: () =>
+          import(/* webpackChunkName: "home" */ '~/pages/index.vue'),
       },
       {
         path: 'user',
@@ -24,57 +25,94 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '',
         name: 'Guide',
-        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/index.md'),
+        component: () =>
+          import(/* webpackChunkName: "guide" */ '~/pages/guide/index.md'),
       },
       {
         path: 'vue',
         name: 'Vue',
-        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/vue.md'),
+        component: () =>
+          import(/* webpackChunkName: "guide" */ '~/pages/guide/vue.md'),
       },
       {
         path: 'proxy',
         name: 'Proxy',
-        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/proxy.md'),
+        component: () =>
+          import(/* webpackChunkName: "guide" */ '~/pages/guide/proxy.md'),
       },
       {
         path: 'vite-setting',
         name: 'ViteSetting',
-        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/vite-setting.md'),
+        component: () =>
+          import(
+            /* webpackChunkName: "guide" */ '~/pages/guide/vite-setting.md'
+          ),
       },
       {
         path: 'router',
         name: 'Router',
-        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/router.md'),
+        component: () =>
+          import(/* webpackChunkName: "guide" */ '~/pages/guide/router.md'),
       },
       {
         path: 'pinia',
         name: 'Pinia',
-        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/pinia.md'),
+        component: () =>
+          import(/* webpackChunkName: "guide" */ '~/pages/guide/pinia.md'),
       },
       {
         path: 'typescript',
         name: 'Typescript',
-        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/typescript.md'),
+        component: () =>
+          import(/* webpackChunkName: "guide" */ '~/pages/guide/typescript.md'),
       },
       {
         path: 'life-cycle',
         name: 'LifeCycle',
-        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/life-cycle.md'),
+        component: () =>
+          import(/* webpackChunkName: "guide" */ '~/pages/guide/life-cycle.md'),
       },
       {
         path: 'tree-shaking',
         name: 'TreeShaking',
-        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/tree-shaking.md'),
+        component: () =>
+          import(
+            /* webpackChunkName: "guide" */ '~/pages/guide/tree-shaking.md'
+          ),
       },
       {
         path: 'component',
         name: 'Component',
-        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/component.md'),
+        component: () =>
+          import(/* webpackChunkName: "guide" */ '~/pages/guide/component.md'),
       },
       {
         path: 'async',
         name: 'Async',
-        component: () => import(/* webpackChunkName: "guide" */ '~/pages/guide/async.md'),
+        component: () =>
+          import(/* webpackChunkName: "guide" */ '~/pages/guide/async.md'),
+      },
+    ],
+  },
+  {
+    path: '/component',
+    children: [
+      {
+        path: '',
+        name: 'ComponentList',
+        component: () =>
+          import(
+            /* webpackChunkName: "component" */ '~/pages/component/index.vue'
+          ),
+        props: true,
+      },
+      {
+        path: 'grid',
+        name: 'GridComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "grid" */ '~/pages/component/grid/index.vue'
+          ),
       },
     ],
   },
