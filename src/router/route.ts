@@ -140,6 +140,14 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "progress" */ '~/pages/component/progress/index.vue'
           ),
       },
+      {
+        path: 'toast',
+        name: 'ToastComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "toast" */ '~/pages/component/toast/index.vue'
+          ),
+      },
     ],
   },
 ]

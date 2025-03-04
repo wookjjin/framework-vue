@@ -4,7 +4,7 @@ import { computed } from 'vue'
 import Progress from '~/components/ui/progress/Progress.vue'
 import { isDark, preferredDark } from '~/composables/dark'
 import { useLoadingStore } from './stores/progress'
-
+import Toast from '~/components/ui/toast/Toast.vue'
 const loadingStore = useLoadingStore()
 
 useHead({
@@ -28,6 +28,7 @@ useHead({
 
 <template>
   <Progress v-if="loadingStore.isLoading" />
+  <Toast/> 
   <RouterView />
 </template>
 

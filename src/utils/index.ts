@@ -1,6 +1,7 @@
 /* eslint-disable regexp/optimal-quantifier-concatenation */
 /* eslint-disable regexp/no-misleading-capturing-group */
 import { useLoadingStore } from '../stores/progress'
+import { useToastStore } from '../stores/toast'
 
 // 숫자 천단위 (,) 표시 util 함수수
 export function formatNumber(value: number | string): string {
@@ -57,4 +58,19 @@ export async function fetchWithLoading(fetchFunction: () => Promise<any>) {
   finally {
     setTimeout(() => loadingStore.stopLoading(), 1000)
   }
+}
+
+export const bakeToast = {
+  success: (message: string) => {
+    useToastStore().addToast(message, 'SUCCESS')
+  },
+  error: (message: string) => {
+    useToastStore().addToast(message, 'ERROR')
+  },
+  warning: (message: string) => {
+    useToastStore().addToast(message, 'WARNING')
+  },
+  default: (message: string) => {
+    useToastStore().addToast(message, 'DEFAULT')
+  },
 }
