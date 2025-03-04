@@ -1,11 +1,11 @@
 <script setup lang='ts'>
 import type { Column } from '~/components/ui/grid/GridBody.vue'
 import type { TotalCount } from '~/components/ui/grid/GridHeader.vue'
+import type { LimitOption } from '~/components/ui/pagination/Pagination.vue'
 import GridBody from '~/components/ui/grid/GridBody.vue'
 import GridHeader from '~/components/ui/grid/GridHeader.vue'
-import { maskPhoneNumber } from '~/utils'
-import type { LimitOption } from '~/components/ui/pagination/Pagination.vue'
 import Pagination from '~/components/ui/pagination/Pagination.vue'
+import { maskPhoneNumber } from '~/utils'
 
 interface MockRow {
   name: string
@@ -162,7 +162,7 @@ const getSelectedRows = (selectedRows: MockRow[]) => {
 }
 
 const pageChangeEvent = (page: number) => {
-  console.log('current page >>>',page)
+  console.log('current page >>>', page)
 }
 </script>
 
@@ -170,9 +170,11 @@ const pageChangeEvent = (page: number) => {
   <div class="grid-container">
     <div class="grid-wrapper">
       <GridHeader :total-count="totalCount" total-label="Total" />
-      <GridBody v-model:selected-rows="selectedRows" :columns="columns" :rows="mockRows" :use-checkbox="true"
+      <GridBody
+        v-model:selected-rows="selectedRows" :columns="columns" :rows="mockRows" :use-checkbox="true"
         @update:selected-rows="getSelectedRows(selectedRows)" @column-click-event="columnClickEvent"
-        @sort-change-event="sortChangeEvent" @row-click-event="rowClickEvent">
+        @sort-change-event="sortChangeEvent" @row-click-event="rowClickEvent"
+      >
         <template #cellPhone="{ row }">
           <span>
             {{ maskPhoneNumber(row.cellPhone) }}

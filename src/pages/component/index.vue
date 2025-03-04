@@ -8,6 +8,10 @@ const componentMenus = [
     id: 'input',
   },
   {
+    name: 'Button',
+    id: 'button',
+  },
+  {
     name: 'Grid',
     id: 'grid',
   },

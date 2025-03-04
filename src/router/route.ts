@@ -117,6 +117,14 @@ const routes: Array<RouteRecordRaw> = [
           ),
       },
       {
+        path: 'button',
+        name: 'ButtonComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "input" */ '~/pages/component/button/index.vue'
+          ),
+      },
+      {
         path: 'grid',
         name: 'GridComponent',
         component: () =>
