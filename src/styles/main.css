@@ -3,4 +3,5 @@
 @import "base/_variables.css";
 
 /* Components */
-@import "components/input.css"
+@import "components/input.css";
+@import "components/progress.css";

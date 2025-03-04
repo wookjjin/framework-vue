@@ -1,5 +1,7 @@
 /* eslint-disable regexp/optimal-quantifier-concatenation */
 /* eslint-disable regexp/no-misleading-capturing-group */
+import { useLoadingStore } from '../stores/progress'
+
 // 숫자 천단위 (,) 표시 util 함수수
 export function formatNumber(value: number | string): string {
   return Number(value).toLocaleString()
@@ -42,4 +44,17 @@ export function maskPhoneNumber(phone: string | number) {
   }
 
   return formatted
+}
+
+// progress bar 테스트 용도
+export async function fetchWithLoading(fetchFunction: () => Promise<any>) {
+  const loadingStore = useLoadingStore()
+  loadingStore.startLoading()
+  try {
+    const response = await fetchFunction()
+    return response
+  }
+  finally {
+    setTimeout(() => loadingStore.stopLoading(), 1000)
+  }
 }

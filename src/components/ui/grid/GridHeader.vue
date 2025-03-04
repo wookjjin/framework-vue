@@ -15,15 +15,15 @@ withDefaults(defineProps<{
 
 <template>
   <div class="grid-header-container">
-    <div class="header-left">
-      <slot name="header-left">
+    <div class="grid-header-left">
+      <slot name="grid-header-left">
         <span v-if="totalCount">
           <em> {{ totalLabel }}👀 </em> {{ formatNumber(totalCount) }}
         </span>
       </slot>
     </div>
-    <div class="header-right">
-      <slot name="header-right">
+    <div class="grid-header-right">
+      <slot name="grid-header-right">
         <button>Slot Button</button>
       </slot>
     </div>
@@ -40,7 +40,7 @@ withDefaults(defineProps<{
   border-radius: 6px;
 }
 
-.header-left {
+.grid-header-left {
   font-size: 1.2rem;
   font-weight: 500;
   display: flex;
@@ -50,7 +50,7 @@ withDefaults(defineProps<{
   color: #2c3e50;
 }
 
-.header-left em {
+.grid-header-left em {
   font-weight: bold;
   font-size: 1.3rem;
   color: #4f8a5a;
@@ -58,7 +58,7 @@ withDefaults(defineProps<{
   font-style: normal;
 }
 
-.header-left span {
+.grid-header-left span {
   font-size: 1.4rem;
   font-weight: 600;
   color: #2c3e50;
@@ -66,13 +66,13 @@ withDefaults(defineProps<{
   text-shadow: 1px 1px 2px rgba(44, 62, 80, 0.15);
 }
 
-.header-right {
+.grid-header-right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
-.header-right button {
+.grid-header-right button {
   background-color: white;
   color: #4f8a5a;
   border: 2px solid #4f8a5a;

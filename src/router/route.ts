@@ -124,6 +124,14 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "grid" */ '~/pages/component/grid/index.vue'
           ),
       },
+      {
+        path: 'progress',
+        name: 'ProgressComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "progress" */ '~/pages/component/progress/index.vue'
+          ),
+      },
     ],
   },
 ]
