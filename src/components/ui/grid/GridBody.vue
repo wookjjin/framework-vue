@@ -110,11 +110,15 @@ const rowClickEvent = (row: Record<string, any>) => {
         <thead>
           <tr>
             <th v-if="useCheckbox">
-              <input type="checkbox" :checked="isAllChecked" :indeterminate="isIndeterminate"
-                @change="toggleAllSelection">
+              <input
+                type="checkbox" :checked="isAllChecked" :indeterminate="isIndeterminate"
+                @change="toggleAllSelection"
+              >
             </th>
-            <th v-for="column in visibleColumns" :key="`grid-column-${column.key}`"
-              :style="{ textAlign: column.align || 'left' }" @click.stop="columnClickEvent(column)">
+            <th
+              v-for="column in visibleColumns" :key="`grid-column-${column.key}`"
+              :style="{ textAlign: column.align || 'left' }" @click.stop="columnClickEvent(column)"
+            >
               <span class="column-header" @click.stop="sortColumnEvent(column)">
                 <span class="column-label">{{ column.label }}</span>
                 <span class="sort-icon" :class="{ active: activeSort.key === column.key && column.sortable }">
@@ -127,16 +131,27 @@ const rowClickEvent = (row: Record<string, any>) => {
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="rows.length">
           <tr v-for="(row, index) in rows" :key="`grid-row-${index}`">
             <td v-if="useCheckbox" class="checkbox-cell">
               <input type="checkbox" :checked="selectedRows.includes(row)" @change="toggleRowSelection(row)">
             </td>
-            <td v-for="column in visibleColumns" :key="`grid-column-${column.key}`"
-              :style="{ textAlign: column.align || 'left' }" @click.stop="rowClickEvent(row)">
+            <td
+              v-for="column in visibleColumns" :key="`grid-column-${column.key}`"
+              :style="{ textAlign: column.align || 'left' }" @click.stop="rowClickEvent(row)"
+            >
               <slot :name="column.key" :row="row">
                 <span>{{ row[column.key] }}</span>
               </slot>
+            </td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr class="no-data">
+            <td :colspan="visibleColumns.length + (useCheckbox ? 1 : 0)">
+              <div class="no-data-container">
+                Empty Data
+              </div>
             </td>
           </tr>
         </tbody>
@@ -245,7 +260,7 @@ tbody tr {
   transition: transform 0.2s ease-in-out
 }
 
-tbody tr:hover {
+tbody tr:not(.no-data):hover {
   cursor: pointer;
   background-color: #f1f5f9;
   box-shadow: inset 2px 0 0 #4f8a5a, inset -2px 0 0 #4f8a5a;
@@ -311,6 +326,30 @@ input[type="checkbox"]:disabled {
   background-color: #ddd;
   border-color: #bbb;
   cursor: not-allowed;
+}
+
+.no-data {
+  height: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #777;
+}
+
+.no-data-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #777;
+}
+
+.no-data td {
+  padding: 0;
+  height: 500px;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
