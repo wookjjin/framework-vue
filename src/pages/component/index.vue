@@ -12,6 +12,10 @@ const componentMenus = [
     id: 'button',
   },
   {
+    name: 'Select',
+    id: 'select',
+  },
+  {
     name: 'Grid',
     id: 'grid',
   },
