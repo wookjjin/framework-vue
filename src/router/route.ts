@@ -117,6 +117,22 @@ const routes: Array<RouteRecordRaw> = [
           ),
       },
       {
+        path: 'radio',
+        name: 'RadioComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "radio" */ '~/pages/component/radio/index.vue'
+          ),
+      },
+      {
+        path: 'checkbox',
+        name: 'CheckboxComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "checkbox" */ '~/pages/component/checkbox/index.vue'
+          ),
+      },
+      {
         path: 'button',
         name: 'ButtonComponent',
         component: () =>
