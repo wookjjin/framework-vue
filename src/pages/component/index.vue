@@ -8,6 +8,14 @@ const componentMenus = [
     id: 'input',
   },
   {
+    name: 'Radio',
+    id: 'radio',
+  },
+  {
+    name: 'Checkbox',
+    id: 'checkbox',
+  },
+  {
     name: 'Button',
     id: 'button',
   },
