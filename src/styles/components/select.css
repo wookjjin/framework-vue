@@ -1,0 +1,110 @@
+.base-select {
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
+
+.select-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.select-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select-display.is-placeholder {
+  color: var(--border-color);
+}
+
+.base-select.is-disabled .select-display {
+  background-color: var(--disabled-color);
+  cursor: not-allowed;
+}
+
+.base-select.has-error .select-display {
+  border-color: var(--error-color);
+}
+
+.select-arrow {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid var(--text-color);
+  transition: transform 0.3s ease;
+}
+
+.base-select.is-open .select-arrow {
+  transform: rotate(180deg);
+}
+
+.base-select.is-disabled .select-arrow {
+  border-top-color: var(--disabled-color);
+}
+
+.select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--bg-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  margin-top: 4px;
+}
+
+.select-option {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select-option:hover {
+  background-color: var(--light-green);
+}
+
+.select-option.is-selected {
+  background-color: var(--primary-green);
+  color: white;
+}
+
+.select-option.is-disabled {
+  color: var(--disabled-color);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* 드롭다운 애니메이션 */
+.dropdown-enter-active,
+.dropdown-leave-active {
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.dropdown-enter-to,
+.dropdown-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}

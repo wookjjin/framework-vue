@@ -121,7 +121,15 @@ const routes: Array<RouteRecordRaw> = [
         name: 'ButtonComponent',
         component: () =>
           import(
-            /* webpackChunkName: "input" */ '~/pages/component/button/index.vue'
+            /* webpackChunkName: "button" */ '~/pages/component/button/index.vue'
+          ),
+      },
+      {
+        path: 'select',
+        name: 'SelectComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "select" */ '~/pages/component/select/index.vue'
           ),
       },
       {
