@@ -2,6 +2,7 @@
 interface Props {
   title?: string
   showClose?: boolean
+  showHeader?: boolean
   showFooter?: boolean
   confirmText?: string
   cancelText?: string
@@ -11,6 +12,7 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   title: 'Dialog',
   showClose: true,
+  showHeader: true,
   showFooter: true,
   confirmText: '확인',
   cancelText: '취소',
@@ -58,37 +60,39 @@ onUnmounted(() => {
 
 <template>
   <!-- 텔레포트 필요 시 -->
-  <!-- <Teleport to="body"> -->
-  <Transition name="dialog-fade">
-    <div v-if="isOpen" class="dialog-backdrop" @click="closeOnOverlayClick && close">
-      <div class="dialog" @click.stop>
-        <header class="dialog-header">
-          <h2 class="dialog-title">
-            {{ title }}
-          </h2>
-          <button v-if="showClose" class="dialog-close" @click="close">
-            &times;
-          </button>
-        </header>
+  <Teleport to="body">
+    <Transition name="dialog-fade">
+      <div v-if="isOpen" class="dialog-backdrop" @click="closeOnOverlayClick && close">
+        <div class="dialog" @click.stop>
+          <header v-if="$slots.header || showHeader" class="dialog-header">
+            <slot name="header">
+              <h2 class="dialog-title">
+                {{ title }}
+              </h2>
+              <button v-if="showClose" class="dialog-close" @click="close">
+                &times;
+              </button>
+            </slot>
+          </header>
 
-        <main class="dialog-body">
-          <slot name="content" />
-        </main>
+          <main class="dialog-body">
+            <slot name="content" />
+          </main>
 
-        <footer v-if="$slots.footer || showFooter" class="dialog-footer">
-          <slot name="footer">
-            <button v-if="cancelText" class="dialog-btn dialog-btn-cancel" @click="handleCancel">
-              {{ cancelText }}
-            </button>
-            <button v-if="confirmText" class="dialog-btn dialog-btn-confirm" @click="handleConfirm">
-              {{ confirmText }}
-            </button>
-          </slot>
-        </footer>
+          <footer v-if="$slots.footer || showFooter" class="dialog-footer">
+            <slot name="footer">
+              <button v-if="cancelText" class="dialog-btn dialog-btn-cancel" @click="handleCancel">
+                {{ cancelText }}
+              </button>
+              <button v-if="confirmText" class="dialog-btn dialog-btn-confirm" @click="handleConfirm">
+                {{ confirmText }}
+              </button>
+            </slot>
+          </footer>
+        </div>
       </div>
-    </div>
-  </Transition>
-  <!-- </Teleport> -->
+    </Transition>
+  </Teleport>
 </template>
 
 <style scoped>
@@ -106,9 +110,9 @@ onUnmounted(() => {
 }
 
 .dialog {
-  background-color: #fff;
+  background-color: var(--bg-color);
   border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(74, 109, 90, 0.2);
   width: v-bind('width');
   max-width: 90%;
   max-height: 90vh;
@@ -122,14 +126,14 @@ onUnmounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .dialog-title {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-color);
 }
 
 .dialog-close {
@@ -137,13 +141,13 @@ onUnmounted(() => {
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: #999;
+  color: var(--disabled-color);
   padding: 0;
   line-height: 1;
 }
 
 .dialog-close:hover {
-  color: #333;
+  color: var(--text-color);
 }
 
 .dialog-body {
@@ -156,7 +160,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: flex-end;
   padding: 16px 20px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border-color);
   gap: 12px;
 }
 
@@ -170,21 +174,21 @@ onUnmounted(() => {
 }
 
 .dialog-btn-cancel {
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: var(--light-green);
+  color: var(--text-color);
 }
 
 .dialog-btn-cancel:hover {
-  background-color: #e0e0e0;
+  background-color: var(--border-color);
 }
 
 .dialog-btn-confirm {
-  background-color: #6EC1E4;
+  background-color: var(--primary-green);
   color: white;
 }
 
 .dialog-btn-confirm:hover {
-  background-color: #8ECEEB;
+  background-color: var(--dark-green);
 }
 
 .dialog-fade-enter-active,

@@ -157,6 +157,14 @@ const routes: Array<RouteRecordRaw> = [
           ),
       },
       {
+        path: 'dialog',
+        name: 'DialogComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "dialog" */ '~/pages/component/dialog/index.vue'
+          ),
+      },
+      {
         path: 'progress',
         name: 'ProgressComponent',
         component: () =>

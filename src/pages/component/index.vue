@@ -28,6 +28,10 @@ const componentMenus = [
     id: 'grid',
   },
   {
+    name: 'Dialog',
+    id: 'dialog',
+  },
+  {
     name: 'Progress',
     id: 'progress',
   },
