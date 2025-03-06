@@ -157,11 +157,11 @@ const routes: Array<RouteRecordRaw> = [
           ),
       },
       {
-        path: 'dialog',
-        name: 'DialogComponent',
+        path: 'pop-overlay',
+        name: 'PopOverlayComponent',
         component: () =>
           import(
-            /* webpackChunkName: "dialog" */ '~/pages/component/dialog/index.vue'
+            /* webpackChunkName: "pop-overlay" */ '~/pages/component/pop-overlay/index.vue'
           ),
       },
       {

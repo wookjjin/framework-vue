@@ -10,7 +10,7 @@ interface Props {
   width?: string
 }
 withDefaults(defineProps<Props>(), {
-  title: 'Dialog',
+  title: 'PopOverlay',
   showClose: true,
   showHeader: true,
   showFooter: true,
@@ -69,9 +69,9 @@ onUnmounted(() => {
               <h2 class="dialog-title">
                 {{ title }}
               </h2>
-              <button v-if="showClose" class="dialog-close" @click="close">
+              <BaseButton v-if="showClose" class="dialog-close" @click="close">
                 &times;
-              </button>
+              </BaseButton>
             </slot>
           </header>
 
@@ -81,12 +81,12 @@ onUnmounted(() => {
 
           <footer v-if="$slots.footer || showFooter" class="dialog-footer">
             <slot name="footer">
-              <button v-if="cancelText" class="dialog-btn dialog-btn-cancel" @click="handleCancel">
+              <BaseButton v-if="cancelText" class="dialog-btn dialog-btn-cancel" @click="handleCancel">
                 {{ cancelText }}
-              </button>
-              <button v-if="confirmText" class="dialog-btn dialog-btn-confirm" @click="handleConfirm">
+              </BaseButton>
+              <BaseButton v-if="confirmText" class="dialog-btn dialog-btn-confirm" @click="handleConfirm">
                 {{ confirmText }}
-              </button>
+              </BaseButton>
             </slot>
           </footer>
         </div>
@@ -137,13 +137,17 @@ onUnmounted(() => {
 }
 
 .dialog-close {
-  background: none;
-  border: none;
+  background: none !important;
+  border: none !important;
   font-size: 24px;
   cursor: pointer;
   color: var(--disabled-color);
   padding: 0;
   line-height: 1;
+}
+
+.dialog-close:focus {
+  box-shadow: none !important;
 }
 
 .dialog-close:hover {

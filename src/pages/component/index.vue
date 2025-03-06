@@ -28,8 +28,8 @@ const componentMenus = [
     id: 'grid',
   },
   {
-    name: 'Dialog',
-    id: 'dialog',
+    name: 'PopOverlay',
+    id: 'pop-overlay',
   },
   {
     name: 'Progress',
