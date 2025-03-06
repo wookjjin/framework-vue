@@ -28,6 +28,10 @@ const componentMenus = [
     id: 'grid',
   },
   {
+    name: 'Tab',
+    id: 'tab',
+  },
+  {
     name: 'PopOverlay',
     id: 'pop-overlay',
   },
