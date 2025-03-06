@@ -187,6 +187,7 @@ const limitChangeEvent = (limit: string | number) => {
         </template>
       </GridBody>
       <Pagination
+        :use-limit-list="true"
         :total-count="totalCount"
         :page-visible-count="pageVisibleCount"
         :limit-options="pageLimitOptions"

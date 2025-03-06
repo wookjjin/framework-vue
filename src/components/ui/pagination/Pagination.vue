@@ -121,8 +121,8 @@ const limitChangeEvent = (limit: string | number) => {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 10px;
   align-items: center;
+  padding: 10px;
 }
 
 .page-button-wrapper {

@@ -105,10 +105,21 @@ const sortColumnEvent = (column: Column) => {
 const rowClickEvent = <T extends Record<string, any>>(row: T) => {
   emits<T>('rowClickEvent', row)
 }
+
+const birdRotation = ref<number>(0)
+
+const handleMouseMove = (event: MouseEvent) => {
+  const container = event.currentTarget as HTMLElement
+  const rect = container.getBoundingClientRect()
+  const mouseX = event.clientX - rect.left
+  const centerX = rect.width / 2
+
+  birdRotation.value = mouseX < centerX ? 180 : 0
+}
 </script>
 
 <template>
-  <div class="grid-body-container">
+  <div class="grid-body-container" @mousemove="handleMouseMove">
     <div>
       <table>
         <thead>
@@ -154,7 +165,15 @@ const rowClickEvent = <T extends Record<string, any>>(row: T) => {
           <tr class="no-data">
             <td :colspan="visibleColumns.length + (useCheckbox ? 1 : 0)">
               <div class="no-data-container">
-                Empty Data
+                <img
+                  src="/icon/dog-bird.svg"
+                  width="72px"
+                  height="72px"
+                  :style="{ transform: `rotateY(${birdRotation}deg)` }"
+                >
+                <p>
+                  Empty Data
+                </p>
               </div>
             </td>
           </tr>
@@ -342,12 +361,17 @@ input[type="checkbox"]:disabled {
 
 .no-data-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
   font-size: 1.2rem;
   font-weight: bold;
   color: #777;
+}
+
+img {
+  transition: transform 0.3s ease-in-out;
 }
 
 .no-data td {
