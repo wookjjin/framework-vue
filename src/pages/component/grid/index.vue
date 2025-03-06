@@ -164,6 +164,10 @@ const getSelectedRows = (selectedRows: MockRow[]) => {
 const pageChangeEvent = (page: number) => {
   console.log('current page >>>', page)
 }
+
+const limitChangeEvent = (limit: string | number) => {
+  console.log('current limit >>>', limit)
+}
 </script>
 
 <template>
@@ -173,7 +177,8 @@ const pageChangeEvent = (page: number) => {
       <GridBody
         v-model:selected-rows="selectedRows" :columns="columns" :rows="mockRows" :use-checkbox="true"
         @update:selected-rows="getSelectedRows(selectedRows)" @column-click-event="columnClickEvent"
-        @sort-change-event="sortChangeEvent" @row-click-event="rowClickEvent"
+        @sort-change-event="sortChangeEvent"
+        @row-click-event="rowClickEvent"
       >
         <template #cellPhone="{ row }">
           <span>
@@ -184,9 +189,11 @@ const pageChangeEvent = (page: number) => {
       <Pagination
         :total-count="totalCount"
         :page-visible-count="pageVisibleCount"
+        :limit-options="pageLimitOptions"
         :current-page="pageParams.currentPage"
         :current-page-limit="pageParams.currentPageLimit"
         @page-change-event="pageChangeEvent"
+        @limit-change-event="limitChangeEvent"
       />
     </div>
   </div>
