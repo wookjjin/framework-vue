@@ -157,6 +157,14 @@ const routes: Array<RouteRecordRaw> = [
           ),
       },
       {
+        path: 'tab',
+        name: 'TabComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "tab" */ '~/pages/component/tab/index.vue'
+          ),
+      },
+      {
         path: 'pop-overlay',
         name: 'PopOverlayComponent',
         component: () =>

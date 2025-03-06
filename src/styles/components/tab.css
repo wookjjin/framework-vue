@@ -1,0 +1,87 @@
+.tabs-container {
+  width: 100%;
+  background-color: var(--bg-color);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tabs-header {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--light-green);
+  overflow-x: auto;
+  white-space: nowrap;
+  cursor: grab;
+  user-select: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabs-header::-webkit-scrollbar {
+  display: none;
+  /* 크롬, 사파리에서 스크롤바 숨기기 */
+}
+
+.tab-button {
+  width: 160px;
+  padding: 12px 24px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.tab-button {
+  padding: 12px 24px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+}
+
+.tab-button:hover,
+.tab-button.active {
+  background-color: var(--primary-green, #a8d5ba);
+  color: white;
+}
+
+.tab-button:focus {
+  box-shadow: none !important;
+}
+
+.tab-content {
+  margin: 60px 20px;
+}
+
+/* tab panel */
+.tab-panel {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .tab-button {
+    padding: 10px 16px;
+    font-size: 14px;
+    flex-grow: 1;
+  }
+}
