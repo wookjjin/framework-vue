@@ -40,6 +40,10 @@ const componentMenus = [
     id: 'progress',
   },
   {
+    name: 'Tree',
+    id: 'tree',
+  },
+  {
     name: 'Toast',
     id: 'toast',
   },
