@@ -196,6 +196,15 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "tag" */ '~/pages/component/tag/index.vue'
           ),
       },
+
+      {
+        path: 'chart',
+        name: 'ChartComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "chart" */ '~/pages/component/chart/index.vue'
+          ),
+      },
     ],
   },
 ]
