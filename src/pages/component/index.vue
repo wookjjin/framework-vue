@@ -47,6 +47,10 @@ const componentMenus = [
     name: 'Tag',
     id: 'tag',
   },
+  {
+    name: 'Chart',
+    id: 'chart',
+  },
 ]
 
 const goToComponent = (id: string) => {
@@ -69,13 +73,14 @@ const goToComponent = (id: string) => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .menu-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   background-color: #f4f4f4;
+  overflow-y: auto;
 }
 
 .menu-wrapper {
@@ -84,7 +89,9 @@ const goToComponent = (id: string) => {
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 320px;
+  width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .menu-title {
@@ -111,16 +118,16 @@ const goToComponent = (id: string) => {
   color: #333;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+}
 
-  &:hover {
-    background: #a8d5ba;
-    color: #fff;
-    transform: translateY(-3px);
-    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
-  }
+.menu-item:hover {
+  background: #a8d5ba;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+}
 
-  &:active {
-    transform: scale(0.95);
-  }
+.menu-item:active {
+  transform: scale(0.95);
 }
 </style>
