@@ -1,11 +1,11 @@
 <script setup lang='ts'>
 import type { Column } from '~/components/ui/grid/GridBody.vue'
 import type { TotalCount } from '~/components/ui/grid/GridHeader.vue'
+import type { LimitOption } from '~/components/ui/pagination/Pagination.vue'
 import GridBody from '~/components/ui/grid/GridBody.vue'
 import GridHeader from '~/components/ui/grid/GridHeader.vue'
-import { maskPhoneNumber } from '~/utils'
-import type { LimitOption } from '~/components/ui/pagination/Pagination.vue'
 import Pagination from '~/components/ui/pagination/Pagination.vue'
+import { maskPhoneNumber } from '~/utils'
 
 interface MockRow {
   name: string
@@ -162,7 +162,11 @@ const getSelectedRows = (selectedRows: MockRow[]) => {
 }
 
 const pageChangeEvent = (page: number) => {
-  console.log('current page >>>',page)
+  console.log('current page >>>', page)
+}
+
+const limitChangeEvent = (limit: string | number) => {
+  console.log('current limit >>>', limit)
 }
 </script>
 
@@ -170,9 +174,12 @@ const pageChangeEvent = (page: number) => {
   <div class="grid-container">
     <div class="grid-wrapper">
       <GridHeader :total-count="totalCount" total-label="Total" />
-      <GridBody v-model:selected-rows="selectedRows" :columns="columns" :rows="mockRows" :use-checkbox="true"
+      <GridBody
+        v-model:selected-rows="selectedRows" :columns="columns" :rows="mockRows" :use-checkbox="true"
         @update:selected-rows="getSelectedRows(selectedRows)" @column-click-event="columnClickEvent"
-        @sort-change-event="sortChangeEvent" @row-click-event="rowClickEvent">
+        @sort-change-event="sortChangeEvent"
+        @row-click-event="rowClickEvent"
+      >
         <template #cellPhone="{ row }">
           <span>
             {{ maskPhoneNumber(row.cellPhone) }}
@@ -180,11 +187,14 @@ const pageChangeEvent = (page: number) => {
         </template>
       </GridBody>
       <Pagination
+        :use-limit-list="true"
         :total-count="totalCount"
         :page-visible-count="pageVisibleCount"
+        :limit-options="pageLimitOptions"
         :current-page="pageParams.currentPage"
         :current-page-limit="pageParams.currentPageLimit"
         @page-change-event="pageChangeEvent"
+        @limit-change-event="limitChangeEvent"
       />
     </div>
   </div>

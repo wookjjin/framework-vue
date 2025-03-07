@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { SelectOption } from '../base/BaseSelect.vue'
+
 export type LimitOption<T> = T extends {
-  label: string,
+  label: string
   value: string | number
 }
   ? { label: string, value: string | number }
@@ -22,7 +24,7 @@ const props = withDefaults(
       { label: '50개씩 보기', value: 50 },
     ],
     useLimitList: false,
-  }
+  },
 )
 
 const emits = defineEmits<{
@@ -52,53 +54,81 @@ const visiblePages = computed(() => {
 })
 
 const pageChangeEvent = (page: number) => {
-  if (page < 1 || page > totalPageCount.value) return
+  if (page < 1 || page > totalPageCount.value)
+    return
   currentPage.value = page
   emits('pageChangeEvent', page)
+}
+
+const limitChangeEvent = (limit: string | number) => {
+  emits('limitChangeEvent', limit)
 }
 </script>
 
 <template>
   <div v-if="totalPageCount > 1" class="pagination-container">
-    <button type="button" class="page-button first" :disabled="currentPage === 1" @click="pageChangeEvent(1)">
-      <span class="icon">
-        ⏮
-      </span>
-    </button>
-    <button type="button" class="page-button prev" :disabled="currentPage === 1"
-      @click="pageChangeEvent(currentPage - 1)">
-      <span class="icon">
-        ◀
-      </span>
-    </button>
+    <div class="page-button-wrapper">
+      <button type="button" class="page-button first" :disabled="currentPage === 1" @click="pageChangeEvent(1)">
+        <span class="icon">
+          ⏮
+        </span>
+      </button>
+      <button
+        type="button" class="page-button prev" :disabled="currentPage === 1"
+        @click="pageChangeEvent(currentPage - 1)"
+      >
+        <span class="icon">
+          ◀
+        </span>
+      </button>
+      <button
+        v-for="page in visiblePages" :key="page" type="button" class="page-button"
+        :class="{ active: page === currentPage }" @click="pageChangeEvent(page)"
+      >
+        {{ page }}
+      </button>
 
-    <button v-for="page in visiblePages" :key="page" type="button" class="page-button"
-      :class="{ active: page === currentPage }" @click="pageChangeEvent(page)">
-      {{ page }}
-    </button>
-
-    <button type="button" class="page-button next" :disabled="currentPage === totalPageCount"
-      @click="pageChangeEvent(currentPage + 1)">
-      <span class="icon">
-        ▶
-      </span>
-    </button>
-    <button type="button" class="page-button last" :disabled="currentPage === totalPageCount"
-      @click="pageChangeEvent(totalPageCount)">
-      <span class="icon">
-        ⏭
-      </span>
-    </button>
+      <button
+        type="button" class="page-button next" :disabled="currentPage === totalPageCount"
+        @click="pageChangeEvent(currentPage + 1)"
+      >
+        <span class="icon">
+          ▶
+        </span>
+      </button>
+      <button
+        type="button" class="page-button last" :disabled="currentPage === totalPageCount"
+        @click="pageChangeEvent(totalPageCount)"
+      >
+        <span class="icon">
+          ⏭
+        </span>
+      </button>
+    </div>
+    <div v-if="useLimitList">
+      <BaseSelect
+        v-model="currentPageLimit"
+        :options="(limitOptions as SelectOption[])"
+        :style="{ width: '140px' }"
+        @change="limitChangeEvent"
+      />
+    </div>
   </div>
 </template>
 
 <style scoped>
 .pagination-container {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding: 10px;
+}
+
+.page-button-wrapper {
+  display: flex;
+  padding: 10px;
   gap: 6px;
-  padding: 12px 0;
 }
 
 .page-button {

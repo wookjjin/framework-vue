@@ -3,10 +3,11 @@ import { ViteSSG } from 'vite-ssg'
 import { setupMockServer } from '~/composables/mock.ts'
 import routes from '~/router/route.ts'
 import App from './App.vue'
+import { useLoadingStore } from './stores/progress.ts'
 import '@unocss/reset/normalize.css'
 import '~/styles/main.css'
-import '~/styles/markdown.css'
 
+import '~/styles/markdown.css'
 import 'virtual:uno.css'
 
 if (import.meta.env.MODE === 'development') {
@@ -15,13 +16,24 @@ if (import.meta.env.MODE === 'development') {
 
 // `export const createApp` is required instead of the original `createApp(App).mount('#app')`
 export const createApp = ViteSSG(
-  // the root component
   App,
-  // vue-router options
   { routes },
-  // function to have custom setups
   (ctx) => {
-    // install plugins etc.
+    const { router, isClient } = ctx
+
+    if (isClient) {
+      router.beforeEach((to, from, next) => {
+        const loadingStore = useLoadingStore()
+        next()
+        loadingStore.startLoading()
+      })
+
+      router.afterEach(() => {
+        const loadingStore = useLoadingStore()
+        loadingStore.stopLoading()
+      })
+    }
+
     Object.values(
       import.meta.glob<{ install: UserModule }>('./modules/*.ts', {
         eager: true,

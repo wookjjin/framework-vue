@@ -1,6 +1,6 @@
 <script setup lang="ts">
-export interface Column {
-  key: string | number
+export interface Column<T = Record<string, any>> {
+  key: keyof T | string
   label: string
   visible?: boolean
   align?: 'left' | 'center' | 'right'
@@ -9,8 +9,8 @@ export interface Column {
 
 const props = withDefaults(
   defineProps<{
-    columns: Column[]
-    rows: Record<string, any>[]
+    columns: Column<any>[]
+    rows: any[]
     useCheckbox?: boolean
   }>(),
   {
@@ -21,25 +21,29 @@ const props = withDefaults(
 
 const emits = defineEmits<{
   (event: 'columnClickEvent', column: Column): void
-  (event: 'rowClickEvent', row: Record<string, any>): void
-  (event: 'sortChangeEvent', columnKey: string, direction: 'asc' | 'desc' | 'default'): void
-  (event: 'update:selectedRows', selectedRows: Record<string, any>[]): void
+  <T>(event: 'rowClickEvent', row: T): void
+  (event: 'sortChangeEvent',
+    columnKey: string, direction: 'asc' | 'desc' | 'default'): void
+  <T>(event: 'update:selectedRows', selectedRows: T[]): void
 }>()
 
-const visibleColumns = computed<Column[]>(() => {
+const selectedRows = ref<any[]>([])
+
+const visibleColumns = computed<Column<any>[]>(() => {
   const cols = props.columns.map(column => ({
     ...column,
     align: column.align ?? 'left',
   }))
-  return props.useCheckbox ? [{ key: 'checkbox', label: '', align: 'center' }, ...cols] : cols
+
+  return props.useCheckbox
+    ? ([{ key: 'checkbox', label: '', align: 'center' } as Column<any>, ...cols])
+    : cols
 })
 
 const activeSort = ref<{ key: string, direction: 'asc' | 'desc' | 'default' }>({
   key: '',
   direction: 'default',
 })
-
-const selectedRows = ref<Record<string, any>[]>([])
 
 const isAllChecked = computed(() => {
   if (props.rows.length === 0)
@@ -98,23 +102,38 @@ const sortColumnEvent = (column: Column) => {
   emits('sortChangeEvent', activeSort.value.key, activeSort.value.direction)
 }
 
-const rowClickEvent = (row: Record<string, any>) => {
-  emits('rowClickEvent', row)
+const rowClickEvent = <T extends Record<string, any>>(row: T) => {
+  emits<T>('rowClickEvent', row)
+}
+
+const birdRotation = ref<number>(0)
+
+const handleMouseMove = (event: MouseEvent) => {
+  const container = event.currentTarget as HTMLElement
+  const rect = container.getBoundingClientRect()
+  const mouseX = event.clientX - rect.left
+  const centerX = rect.width / 2
+
+  birdRotation.value = mouseX < centerX ? 180 : 0
 }
 </script>
 
 <template>
-  <div class="grid-body-container">
+  <div class="grid-body-container" @mousemove="handleMouseMove">
     <div>
       <table>
         <thead>
           <tr>
             <th v-if="useCheckbox">
-              <input type="checkbox" :checked="isAllChecked" :indeterminate="isIndeterminate"
-                @change="toggleAllSelection">
+              <input
+                type="checkbox" :checked="isAllChecked" :indeterminate="isIndeterminate"
+                @change="toggleAllSelection"
+              >
             </th>
-            <th v-for="column in visibleColumns" :key="`grid-column-${column.key}`"
-              :style="{ textAlign: column.align || 'left' }" @click.stop="columnClickEvent(column)">
+            <th
+              v-for="column in visibleColumns" :key="`grid-column-${String(column.key)}`"
+              :style="{ textAlign: column.align || 'left' }" @click.stop="columnClickEvent(column)"
+            >
               <span class="column-header" @click.stop="sortColumnEvent(column)">
                 <span class="column-label">{{ column.label }}</span>
                 <span class="sort-icon" :class="{ active: activeSort.key === column.key && column.sortable }">
@@ -127,16 +146,35 @@ const rowClickEvent = (row: Record<string, any>) => {
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="rows.length">
           <tr v-for="(row, index) in rows" :key="`grid-row-${index}`">
             <td v-if="useCheckbox" class="checkbox-cell">
               <input type="checkbox" :checked="selectedRows.includes(row)" @change="toggleRowSelection(row)">
             </td>
-            <td v-for="column in visibleColumns" :key="`grid-column-${column.key}`"
-              :style="{ textAlign: column.align || 'left' }" @click.stop="rowClickEvent(row)">
+            <td
+              v-for="column in visibleColumns" :key="`grid-column-${String(column.key)}`"
+              :style="{ textAlign: column.align || 'left' }" @click.stop="rowClickEvent(row)"
+            >
               <slot :name="column.key" :row="row">
                 <span>{{ row[column.key] }}</span>
               </slot>
+            </td>
+          </tr>
+        </tbody>
+        <tbody v-else>
+          <tr class="no-data">
+            <td :colspan="visibleColumns.length + (useCheckbox ? 1 : 0)">
+              <div class="no-data-container">
+                <img
+                  src="/icon/dog-bird.svg"
+                  width="72px"
+                  height="72px"
+                  :style="{ transform: `rotateY(${birdRotation}deg)` }"
+                >
+                <p>
+                  Empty Data
+                </p>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -245,7 +283,7 @@ tbody tr {
   transition: transform 0.2s ease-in-out
 }
 
-tbody tr:hover {
+tbody tr:not(.no-data):hover {
   cursor: pointer;
   background-color: #f1f5f9;
   box-shadow: inset 2px 0 0 #4f8a5a, inset -2px 0 0 #4f8a5a;
@@ -311,6 +349,35 @@ input[type="checkbox"]:disabled {
   background-color: #ddd;
   border-color: #bbb;
   cursor: not-allowed;
+}
+
+.no-data {
+  height: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #777;
+}
+
+.no-data-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #777;
+}
+
+img {
+  transition: transform 0.3s ease-in-out;
+}
+
+.no-data td {
+  padding: 0;
+  height: 500px;
+  text-align: center;
 }
 
 @media (max-width: 768px) {

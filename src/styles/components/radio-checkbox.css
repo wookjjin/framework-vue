@@ -1,0 +1,94 @@
+/* 공통 스타일 */
+.base-radio-group,
+.base-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.radio-option,
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radio-option.is-disabled,
+.checkbox-option.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* 라디오 버튼 스타일 */
+.radio-input-wrapper {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.radio-input {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.radio-input.is-selected {
+  background-color: var(--primary-green);
+}
+
+.radio-option.is-disabled .radio-input-wrapper {
+  border-color: var(--disabled-color);
+}
+
+/* 체크박스 스타일 */
+.checkbox-input-wrapper {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.checkbox-input {
+  width: 12px;
+  height: 12px;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.checkbox-input.is-selected {
+  background-color: var(--primary-green);
+}
+
+.checkbox-input.is-selected::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.checkbox-option.is-disabled .checkbox-input-wrapper {
+  border-color: var(--disabled-color);
+}
+
+/* 에러 상태 스타일 */
+.base-radio-group.has-error .radio-input-wrapper,
+.base-checkbox-group.has-error .checkbox-input-wrapper {
+  border-color: var(--error-color);
+}

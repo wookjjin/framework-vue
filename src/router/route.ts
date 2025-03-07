@@ -117,11 +117,59 @@ const routes: Array<RouteRecordRaw> = [
           ),
       },
       {
+        path: 'radio',
+        name: 'RadioComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "radio" */ '~/pages/component/radio/index.vue'
+          ),
+      },
+      {
+        path: 'checkbox',
+        name: 'CheckboxComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "checkbox" */ '~/pages/component/checkbox/index.vue'
+          ),
+      },
+      {
+        path: 'button',
+        name: 'ButtonComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "button" */ '~/pages/component/button/index.vue'
+          ),
+      },
+      {
+        path: 'select',
+        name: 'SelectComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "select" */ '~/pages/component/select/index.vue'
+          ),
+      },
+      {
         path: 'grid',
         name: 'GridComponent',
         component: () =>
           import(
             /* webpackChunkName: "grid" */ '~/pages/component/grid/index.vue'
+          ),
+      },
+      {
+        path: 'tab',
+        name: 'TabComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "tab" */ '~/pages/component/tab/index.vue'
+          ),
+      },
+      {
+        path: 'pop-overlay',
+        name: 'PopOverlayComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "pop-overlay" */ '~/pages/component/pop-overlay/index.vue'
           ),
       },
       {
@@ -139,6 +187,31 @@ const routes: Array<RouteRecordRaw> = [
             import(
                 /* webpackChunkName: "grid" */ '~/pages/component/tree/index.vue'
                 ),
+      },
+      {
+        path: 'toast',
+        name: 'ToastComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "toast" */ '~/pages/component/toast/index.vue'
+          ),
+      },
+      {
+        path: 'tag',
+        name: 'TagComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "tag" */ '~/pages/component/tag/index.vue'
+          ),
+      },
+
+      {
+        path: 'chart',
+        name: 'ChartComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "chart" */ '~/pages/component/chart/index.vue'
+          ),
       },
     ],
   },
