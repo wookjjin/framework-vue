@@ -43,6 +43,10 @@ const componentMenus = [
     name: 'Toast',
     id: 'toast',
   },
+  {
+    name: 'Tag',
+    id: 'tag',
+  },
 ]
 
 const goToComponent = (id: string) => {
