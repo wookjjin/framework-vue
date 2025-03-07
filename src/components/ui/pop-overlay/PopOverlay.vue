@@ -22,12 +22,12 @@ withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(['confirm', 'cancel', 'close'])
 
-const isOpen = defineModel('isOpen', {
+const isShow = defineModel('isShow', {
   default: false,
 })
 
 const close = () => {
-  isOpen.value = false
+  isShow.value = false
   emit('close')
 }
 
@@ -42,7 +42,7 @@ const handleCancel = () => {
 
 // ESC 키를 눌렀을 때 다이얼로그 닫기
 const handleKeyDown = (e: KeyboardEvent) => {
-  if (e.key === 'Escape' && isOpen.value) {
+  if (e.key === 'Escape' && isShow.value) {
     close()
   }
 }
@@ -62,7 +62,7 @@ onUnmounted(() => {
   <!-- 텔레포트 필요 시 -->
   <Teleport to="body">
     <Transition name="overlay-fade">
-      <div v-if="isOpen" class="overlay-backdrop" @click="closeOnOverlayClick && close">
+      <div v-if="isShow" class="overlay-backdrop" @click="closeOnOverlayClick && close">
         <div class="overlay" @click.stop>
           <header v-if="$slots.header || showHeader" class="overlay-header">
             <slot name="header">

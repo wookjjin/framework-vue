@@ -32,7 +32,7 @@ const openConfirmOverlay = () => {
       Open ConfirmOverlay
     </BaseButton>
   </div>
-  <PopOverlay v-model:is-open="isShow" />
+  <PopOverlay v-model:is-show="isShow" />
 </template>
 
 <style scoped>

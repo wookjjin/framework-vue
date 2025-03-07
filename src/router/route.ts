@@ -188,6 +188,14 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "toast" */ '~/pages/component/toast/index.vue'
           ),
       },
+      {
+        path: 'tag',
+        name: 'TagComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "tag" */ '~/pages/component/tag/index.vue'
+          ),
+      },
     ],
   },
 ]
