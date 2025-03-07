@@ -15,20 +15,20 @@ const closeConfirm = () => {
         <div class="confirm-container">
           <div v-if="confirmStore.options.useHeader" class="confirm-header">
             {{ confirmStore.options.title }}
-            <button v-if="confirmStore.options.useExitButton" @click="closeConfirm()">
-              x
-            </button>
+            <BaseButton v-if="confirmStore.options.useExitButton" class="close-btn" @click="closeConfirm()">
+              &times;
+            </BaseButton>
           </div>
           <div class="confirm-content">
             {{ confirmStore.options.content }}
           </div>
           <div v-if="confirmStore.options.useFooter" class="confirm-footer">
-            <button class="btn-cancel" @click="() => { confirmStore.options.onCancel?.(); closeConfirm(); }">
+            <BaseButton class="btn-cancel" @click="() => { confirmStore.options.onCancel?.(); closeConfirm(); }">
               {{ confirmStore.options.cancelButtonText }}
-            </button>
-            <button class="btn-confirm" @click="() => { confirmStore.options.onConfirm?.(); closeConfirm(); }">
+            </BaseButton>
+            <BaseButton class="btn-confirm" @click="() => { confirmStore.options.onConfirm?.(); closeConfirm(); }">
               {{ confirmStore.options.confirmButtonText }}
-            </button>
+            </BaseButton>
           </div>
         </div>
       </div>
