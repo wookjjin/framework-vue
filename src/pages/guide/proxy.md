@@ -98,7 +98,7 @@ const handler = {
 }
 const proxyObject = new Proxy({ name: 'Vue' }, handler)
 
-delete obj.name // "삭제: name"
+delete proxyObject.name // "삭제: name"
 ```
 ---
 ### ④ has(target, property)
@@ -125,6 +125,7 @@ Vue 2에서는 Object.defineProperty()를 사용하여 반응성을 구현했지
 |배열 변경 감지|O (push/pop 등 감지)|X (수동으로 처리 필요)
 |중첩된 객체 처리|O (자동 처리)|X (재귀적으로 감싸야 함)
 |성능|빠름|느림
+
 ✔ 결론: Proxy 덕분에 Vue 3의 반응성이 더 강력하고 직관적으로 개선됨.
 ___
 ## 📌 5. Proxy의 활용 예제
