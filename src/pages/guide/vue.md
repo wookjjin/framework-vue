@@ -51,6 +51,8 @@ function ref(value) {
 - Computed: getter 함수를 사용하며, getter로부터 반환된 값을 읽기 전용 반응형 ref 객체로 return.
 - Watch: 하나 이상의 반응형 데이터 소스를 감시하고, 소스가 변경되면 콜백 함수를 호출합니다.(특정 반응형 데이터를 감시하여 변화가 있을 때 동작을 수행)
 
+[Slot과 provide/inject](/guide/template)
+
 ## 2️⃣ 컴포지션 API (Composition API)
 Vue 3에서 새로 도입된 컴포지션 API는 상태 관리와 로직을 더 유연하고 명확하게 처리할 수 있습니다.
 

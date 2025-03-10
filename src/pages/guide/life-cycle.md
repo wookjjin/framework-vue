@@ -38,7 +38,7 @@ ___
 |onBeforeUnmount()|컴포넌트가 해제되기 직전에 호출됩니다.
 |onUnmounted()|컴포넌트가 해제된 후에 호출됩니다.
 
-2. 에시코드
+2. 예시코드
 ```vue
 <script setup lang="ts">
 import { onBeforeMount, onBeforeUnmount, onBeforeUpdate, onMounted, onUnmounted, onUpdated, ref } from 'vue'
@@ -75,4 +75,4 @@ onUnmounted(() => {
 </template>
 ```
 
-<img src="../../../public/life-cycle.png" />
+<img src="/life-cycle.png" />

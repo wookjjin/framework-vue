@@ -36,6 +36,12 @@ const routes: Array<RouteRecordRaw> = [
           import(/* webpackChunkName: "guide" */ '~/pages/guide/vue.md'),
       },
       {
+        path: 'template',
+        name: 'Template',
+        component: () =>
+          import(/* webpackChunkName: "guide" */ '~/pages/guide/template.md'),
+      },
+      {
         path: 'proxy',
         name: 'Proxy',
         component: () =>
@@ -176,17 +182,17 @@ const routes: Array<RouteRecordRaw> = [
         path: 'progress',
         name: 'ProgressComponent',
         component: () =>
-            import(
-                /* webpackChunkName: "progress" */ '~/pages/component/progress/index.vue'
-                ),
+          import(
+            /* webpackChunkName: "progress" */ '~/pages/component/progress/index.vue'
+          ),
       },
       {
         path: 'tree',
         name: 'TreeComponent',
         component: () =>
-            import(
-                /* webpackChunkName: "grid" */ '~/pages/component/tree/index.vue'
-                ),
+          import(
+            /* webpackChunkName: "grid" */ '~/pages/component/tree/index.vue'
+          ),
       },
       {
         path: 'toast',
