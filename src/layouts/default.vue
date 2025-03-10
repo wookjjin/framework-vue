@@ -25,16 +25,19 @@ const isNavOpen = ref(false)
 .layout {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   background-color: var(--bg-color);
   color: var(--text-color);
+  overflow: hidden;
 }
 
 .content-container {
   display: flex;
   flex: 1;
   position: relative;
-}
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+  }
 
 .nav-sidebar {
   width: 250px;
@@ -54,7 +57,8 @@ const isNavOpen = ref(false)
 }
 
 .main-content {
-  flex: 1;
+  width: 100%;
+  height: 100%;
   padding: 20px;
   margin-left: 0;
   background-color: var(--bg-color);
