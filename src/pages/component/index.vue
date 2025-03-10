@@ -55,6 +55,10 @@ const componentMenus = [
     name: 'Chart',
     id: 'chart',
   },
+  {
+    name: 'Skeleton',
+    id: 'skeleton',
+  },
 ]
 
 const goToComponent = (id: string) => {
