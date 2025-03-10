@@ -2,65 +2,39 @@
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
+// 알파벳 순서대로 메뉴 리스트
 const componentMenus = [
-  {
-    name: 'Input',
-    id: 'input',
-  },
-  {
-    name: 'Radio',
-    id: 'radio',
-  },
-  {
-    name: 'Checkbox',
-    id: 'checkbox',
-  },
-  {
-    name: 'Button',
-    id: 'button',
-  },
-  {
-    name: 'Select',
-    id: 'select',
-  },
-  {
-    name: 'Grid',
-    id: 'grid',
-  },
-  {
-    name: 'Tab',
-    id: 'tab',
-  },
-  {
-    name: 'PopOverlay',
-    id: 'pop-overlay',
-  },
-  {
-    name: 'Progress',
-    id: 'progress',
-  },
-  {
-    name: 'Tree',
-    id: 'tree',
-  },
-  {
-    name: 'Toast',
-    id: 'toast',
-  },
-  {
-    name: 'Tag',
-    id: 'tag',
-  },
-  {
-    name: 'Chart',
-    id: 'chart',
-  },
-  {
-    name: 'Skeleton',
-    id: 'skeleton',
-  },
+  { name: 'Button', id: 'button' },
+  { name: 'Chart', id: 'chart' },
+  { name: 'Checkbox', id: 'checkbox' },
+  { name: 'Grid', id: 'grid' },
+  { name: 'Input', id: 'input' },
+  { name: 'Kanban', id: 'kanban' },
+  { name: 'PopOverlay', id: 'pop-overlay' },
+  { name: 'Progress', id: 'progress' },
+  { name: 'Radio', id: 'radio' },
+  { name: 'Select', id: 'select' },
+  { name: 'Skeleton', id: 'skeleton' },
+  { name: 'Tab', id: 'tab' },
+  { name: 'Tag', id: 'tag' },
+  { name: 'Toast', id: 'toast' },
+  { name: 'Tree', id: 'tree' },
 ]
 
+// 알파벳별로 그룹화
+const groupedMenus = computed(() => {
+  return componentMenus.reduce((acc, menu) => {
+    const firstLetter = menu.name[0].toUpperCase() // 첫 글자 가져오기
+    if (!acc[firstLetter]) {
+      acc[firstLetter] = []
+    }
+    acc[firstLetter].push(menu)
+    return acc
+  }, {} as Record<string, { name: string; id: string }[]>)
+})
+
+// 라우터 이동 함수
 const goToComponent = (id: string) => {
   router.push(`/component/${id}`)
 }
@@ -72,11 +46,16 @@ const goToComponent = (id: string) => {
       <h2 class="menu-title">
         Get Start
       </h2>
-      <ul class="menu-list">
-        <li v-for="menu in componentMenus" :key="menu.id" class="menu-item" @click="goToComponent(menu.id)">
-          {{ menu.name }}
-        </li>
-      </ul>
+      <div class="menu-list">
+        <div v-for="(menus, letter) in groupedMenus" :key="letter" class="menu-group">
+          <h3 class="menu-letter">{{ letter }}</h3>
+          <ul>
+            <li v-for="menu in menus" :key="menu.id" class="menu-item" @click="goToComponent(menu.id)">
+              {{ menu.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -109,6 +88,20 @@ const goToComponent = (id: string) => {
   color: #333;
 }
 
+/* 알파벳 카테고리 스타일 */
+.menu-group {
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.menu-letter {
+  font-size: 20px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 8px;
+  padding-left: 8px;
+}
+
 .menu-list {
   list-style: none;
   padding: 0;
@@ -120,6 +113,7 @@ const goToComponent = (id: string) => {
 .menu-item {
   background: #f5f5f5;
   padding: 14px;
+  margin-bottom: 4px;
   border-radius: 8px;
   font-size: 18px;
   font-weight: 600;

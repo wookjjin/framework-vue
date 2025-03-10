@@ -226,6 +226,14 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "skeleton" */ '~/pages/component/skeleton/index.vue'
           ),
       },
+      {
+        path: 'kanban',
+        name: 'KanbanComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "kanban" */ '~/pages/component/kanban/index.vue'
+          ),
+      },
     ],
   },
 ]
