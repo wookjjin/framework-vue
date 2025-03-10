@@ -35,8 +35,9 @@ const hasError = computed(() => !!props.errorMessage)
     <label v-if="label" class="input-label" :class="{ 'is-required': required }">{{ label }}</label>
     <div class="input-container">
       <input
-        ref="inputInstance" :value="model" class="input-field" :type="type" :placeholder="placeholder"
+        ref="inputInstance" v-model="model" class="input-field" :type="type" :placeholder="placeholder"
         :disabled="disabled" :minlength="minlength" :maxlength="maxlength" :readonly="readonly"
+        @input=""
       >
       <slot name="suffix" />
     </div>

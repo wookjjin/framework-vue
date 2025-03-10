@@ -28,6 +28,24 @@ export function setupMockServer() {
     const id = config.url?.split('/').pop()
     return [200, { message: `Mocked response for ID: ${id}` }]
   })
+
+  mock.onGet('/user-detail').reply(200, {
+    result: {
+      userName: 'John',
+      age: '24',
+      address: 'address',
+    },
+  })
+  mock.onPost('/user').reply((config) => {
+    const requestData = JSON.parse(config.data); // 요청 데이터 파싱
+
+    return [200, {
+      result: {
+        message: 'Success',
+        receivedData: requestData // 받은 데이터 확인용
+      }
+    }];
+  });
 }
 
 // Mock 초기화 (개발 환경에서만 활성화)
