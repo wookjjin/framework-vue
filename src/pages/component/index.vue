@@ -9,6 +9,7 @@ const componentMenus = [
   { name: 'Chart', id: 'chart' },
   { name: 'Checkbox', id: 'checkbox' },
   { name: 'Grid', id: 'grid' },
+  { name: 'Gantt', id: 'gantt' },
   { name: 'Input', id: 'input' },
   { name: 'Kanban', id: 'kanban' },
   { name: 'PopOverlay', id: 'pop-overlay' },
@@ -31,7 +32,7 @@ const groupedMenus = computed(() => {
     }
     acc[firstLetter].push(menu)
     return acc
-  }, {} as Record<string, { name: string; id: string }[]>)
+  }, {} as Record<string, { name: string, id: string }[]>)
 })
 
 // 라우터 이동 함수
@@ -48,7 +49,9 @@ const goToComponent = (id: string) => {
       </h2>
       <div class="menu-list">
         <div v-for="(menus, letter) in groupedMenus" :key="letter" class="menu-group">
-          <h3 class="menu-letter">{{ letter }}</h3>
+          <h3 class="menu-letter">
+            {{ letter }}
+          </h3>
           <ul>
             <li v-for="menu in menus" :key="menu.id" class="menu-item" @click="goToComponent(menu.id)">
               {{ menu.name }}
