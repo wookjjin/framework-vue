@@ -234,6 +234,14 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "kanban" */ '~/pages/component/kanban/index.vue'
           ),
       },
+      {
+        path: 'gantt',
+        name: 'GanttComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "gantt" */ '~/pages/component/gantt/index.vue'
+          ),
+      },
     ],
   },
 ]
