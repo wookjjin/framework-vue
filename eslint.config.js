@@ -20,6 +20,7 @@ export default antfu(
       'node/prefer-global/process': 'off',
       'ts/consistent-type-definitions': 'off',
       'antfu/top-level-function': 'off',
+      'semi': 'error'
     },
   },
   {

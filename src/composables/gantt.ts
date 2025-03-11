@@ -1,20 +1,20 @@
 /* eslint-disable unused-imports/no-unused-vars */
-import type { ScriptableContext , Chart, ChartConfiguration, ChartData, TooltipItem } from 'chart.js'
+import type { Chart, ChartConfiguration, ChartData, ScriptableContext, TooltipItem } from 'chart.js'
 
 type TStatus = Record<'delayed' | 'pending' | 'completed', string>
 
 const colors: TStatus = {
   delayed: 'rgba(255, 26, 104, 1)',
   pending: 'rgba(255, 159, 64, 1)',
-  completed: 'rgba(75, 192, 192, 1)'
+  completed: 'rgba(75, 192, 192, 1)',
 } as const
 
 type TGanttChartData = {
-  x: [string, string]; 
-  y: string; 
-  name: string; 
-  status: keyof TStatus;
-};
+  x: [string, string]
+  y: string
+  name: string
+  status: keyof TStatus
+}
 
 export const ganttChartData: ChartData<any> = {
   datasets: [{
@@ -84,8 +84,8 @@ const assignedTasks = {
     });
     ctx.fillText('Names', 10, top - 15)
     ctx.restore()
-  }
-}
+  },
+};
 
 /**
  * Status
@@ -102,18 +102,18 @@ const status = {
     } = chart
 
     const icons: TStatus = {
-      delayed: '\uf00d',
-      pending: '\uf110',
-      completed: '\uf00c'
+      delayed: '\uF00D',
+      pending: '\uF110',
+      completed: '\uF00C',
     } as const
     const angle = Math.PI / 180 
     const padding = options.layout?.padding;
     const paddingRight = typeof padding === 'object' && padding !== null ? (padding as { right: number }).right : 0; 
-      
+
     ctx.save()
     ctx.font = 'bolder 12px FontAwesome'
     ctx.textBaseline = 'middle'
-    ctx.textAlign= 'center'
+    ctx.textAlign = 'center'
     ganttChartData.datasets[0].data.forEach((dataPoint: { status: keyof typeof icons }, index: any) => {
       ctx.beginPath()
       ctx.fillStyle = colors[dataPoint.status]
@@ -130,8 +130,8 @@ const status = {
     ctx.fillStyle = 'black'
     ctx.fillText('Status', right + (paddingRight / 2), top - 15)
     ctx.restore()
-  }
-}
+  },
+};
 
 export const ganttChartConfig: ChartConfiguration<'bar'> = {
   type: 'bar',
@@ -152,8 +152,8 @@ export const ganttChartConfig: ChartConfiguration<'bar'> = {
         type: 'time',
         time: {
           displayFormats: {
-            day: 'd'
-          }
+            day: 'd',
+          },
         },
         min: '2025-03-01',
         max: '2025-03-31',
@@ -173,24 +173,24 @@ export const ganttChartConfig: ChartConfiguration<'bar'> = {
               year: 'numeric',
               month: 'short',
               day: 'numeric',
-              hour12: true
+              hour12: true,
             })
             const formattedEndDate = endDate.toLocaleString([], {
               year: 'numeric',
               month: 'short',
               day: 'numeric',
-              hour12: true
+              hour12: true,
             })
-            
+
             return [rawData.name, `Task Deadline: ${formattedStartDate} - ${formattedEndDate}`] 
-          }
-        }
-      }
+          },
+        },
+      },
     },
   },
   plugins: [
     todayLine,
     assignedTasks,
-    status
+    status,
   ],
 }
