@@ -12,6 +12,9 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/vue3": "^6.1.15",
     "@unhead/vue": "2.0.0-alpha.16",
     "@unocss/reset": "^65.5.0",
     "@vuepic/vue-datepicker": "^11.0.1",

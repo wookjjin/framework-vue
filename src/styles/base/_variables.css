@@ -9,3 +9,33 @@
   --border-color: #c8e0d4; /* 보더 컬러 */
   --focus-color: #7fb693; /* 포커스 컬러 */
 }
+
+.dp__theme_light {
+  --dp-background-color: var(--bg-color, #f5f9f7);
+  --dp-text-color: var(--text-color, #4a6d5a);
+  --dp-hover-color: var(--light-green, #e1f0e5);
+  --dp-hover-text-color: var(--text-color, #4a6d5a);
+  --dp-hover-icon-color: var(--dark-green, #7fb693);
+  --dp-primary-color: var(--primary-green, #a8d5ba);
+  --dp-primary-disabled-color: var(--disabled-color, #d8e6de);
+  --dp-primary-text-color: var(--text-color, #4a6d5a);
+  --dp-secondary-color: var(--border-color, #c8e0d4);
+  --dp-border-color: var(--border-color, #c8e0d4);
+  --dp-menu-border-color: var(--border-color, #c8e0d4);
+  --dp-border-color-hover: var(--dark-green, #7fb693);
+  --dp-border-color-focus: var(--focus-color, #7fb693);
+  --dp-disabled-color: var(--disabled-color, #d8e6de);
+  --dp-scroll-bar-background: var(--light-green, #e1f0e5);
+  --dp-scroll-bar-color: var(--dark-green, #7fb693);
+  --dp-success-color: var(--dark-green, #7fb693);
+  --dp-success-color-disabled: var(--disabled-color, #d8e6de);
+  --dp-icon-color: var(--dark-green, #7fb693);
+  --dp-danger-color: var(--error-color, #e57373);
+  --dp-marker-color: var(--error-color, #e57373);
+  --dp-tooltip-color: var(--bg-color, #f5f9f7);
+  --dp-disabled-color-text: var(--disabled-color, #d8e6de);
+  --dp-highlight-color: rgba(168, 213, 186, 0.1); /* primary-green with 10% opacity */
+  --dp-range-between-dates-background-color: var(--light-green, #e1f0e5);
+  --dp-range-between-dates-text-color: var(--text-color, #4a6d5a);
+  --dp-range-between-border-color: var(--light-green, #e1f0e5);
+}
