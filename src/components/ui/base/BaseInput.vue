@@ -1,6 +1,6 @@
 <script setup lang="ts">
 export interface Props {
-  type: 'text' | 'password'
+  type: 'text' | 'password' | 'month'
   label?: string
   placeholder?: string
   required?: false
