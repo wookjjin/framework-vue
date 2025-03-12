@@ -24,7 +24,12 @@ const ganttChart = ref()
 </script>
 
 <template>
-  <Bar ref="ganttChart" :data="data" :plugins="config.plugins" :options="config.options" />
+  <Bar
+    ref="ganttChart" :data="data" :plugins="config.plugins"
+    :options="config.options"
+  />
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

@@ -26,6 +26,9 @@ export const ganttChartData: ChartData<any> = {
       { x: ['2025-03-12', '2025-03-21'], y: 'Task-4', name: 'Lucy', status: 'completed' },
       { x: ['2025-03-15', '2025-03-24'], y: 'Task-5', name: 'Lily', status: 'delayed' },
       { x: ['2025-03-18', '2025-03-30'], y: 'Task-6', name: 'Santiago', status: 'pending' },
+      { x: ['2025-04-02', '2025-05-01'], y: 'Task-7', name: 'Lily', status: 'pending' },
+      { x: ['2025-04-18', '2025-05-14'], y: 'Task-8', name: 'David', status: 'pending' },
+      { x: ['2025-04-28', '2025-05-25'], y: 'Task-9', name: 'Santiago', status: 'pending' },
     ],
     backgroundColor: (ctx: ScriptableContext<'bar'>) => {
       const dataPoint = ctx.raw as TGanttChartData; 
@@ -58,8 +61,27 @@ const todayLine: any = {
     ctx.moveTo(x.getPixelForValue(new Date().getTime()), top)
     ctx.lineTo(x.getPixelForValue(new Date().getTime()), bottom)
     ctx.stroke()
+    ctx.restore()
 
     ctx.setLineDash([])
+
+    ctx.beginPath()
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(102, 102, 102, 1)'
+    ctx.fillStyle = 'rgba(102, 102, 102, 1)'
+    ctx.moveTo(x.getPixelForValue(new Date().getTime()), top)
+    ctx.lineTo(x.getPixelForValue(new Date().getTime()) - 6, top - 6)
+    ctx.lineTo(x.getPixelForValue(new Date().getTime()) + 6, top - 6)
+    ctx.closePath()
+    ctx.stroke()
+    ctx.fill()
+    ctx.restore()
+
+    ctx.font = 'bold 12px sans-serif'
+    ctx.fillStyle = 'rgba(102, 102, 102, 1)'
+    ctx.textAlign = 'center'
+    ctx.fillText('Today', x.getPixelForValue(new Date().getTime()), bottom + 12)
+    ctx.restore()
   },
 }
 
@@ -79,6 +101,7 @@ const assignedTasks = {
     ctx.font = 'bolder 12px sans-serif'
     ctx.fillStyle = 'black'
     ctx.textBaseline = 'middle'
+    ctx.textAlign = 'left'
     ganttChartData.datasets[0].data.forEach((dataPoint: { name: string }, index: any) => {
       ctx.fillText(dataPoint.name, 10, y.getPixelForValue(index))
     });
@@ -144,6 +167,7 @@ export const ganttChartConfig: ChartConfiguration<'bar'> = {
       padding: {
         left: 100,
         right: 100,
+        bottom: 20,
       },
     },
     scales: {
@@ -164,7 +188,12 @@ export const ganttChartConfig: ChartConfiguration<'bar'> = {
         display: false,
       },
       tooltip: {
+        displayColors: false,
+        yAlign: 'bottom',
         callbacks: {
+          label: () => {
+            return ''
+          },
           title: (ctx: TooltipItem<'bar'>[]) => {
             const rawData = ctx[0].raw as TGanttChartData
             const startDate = new Date(rawData.x[0])
