@@ -12,6 +12,7 @@ export default antfu(
       'no-console': 'off',
       'vue/operator-linebreak': ['error', 'before'],
       'antfu/top-level-function': 'off',
+      'vue/no-required-prop-with-default': 'off',
     },
   },
   {
@@ -20,7 +21,7 @@ export default antfu(
       'node/prefer-global/process': 'off',
       'ts/consistent-type-definitions': 'off',
       'antfu/top-level-function': 'off',
-      'semi': 'error'
+      'semi': 'error',
     },
   },
   {
