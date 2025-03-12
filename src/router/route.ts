@@ -242,6 +242,14 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "gantt" */ '~/pages/component/gantt/index.vue'
           ),
       },
+      {
+        path: 'top-bar',
+        name: 'TopBarComponent',
+        component: () =>
+          import(
+            /* webpackChunkName: "top-bar" */ '~/pages/component/top-bar/index.vue'
+          ),
+      },
     ],
   },
 ]

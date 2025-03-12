@@ -21,6 +21,7 @@ const componentMenus = [
   { name: 'Tag', id: 'tag' },
   { name: 'Toast', id: 'toast' },
   { name: 'Tree', id: 'tree' },
+  { name: 'Top Bar', id: 'top-bar' },
 ]
 
 // 알파벳별로 그룹화
