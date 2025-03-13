@@ -37,16 +37,42 @@ const chartFilter = () => {
   }
 }
 
+const validateTask = () => {
+  if (!rangePicker.value || rangePicker.value.length < 2 || !rangePicker.value[0] || !rangePicker.value[1]) {
+    console.warn('시작 및 종료 날짜를 선택해주세요.')
+    return false
+  }
+  if (!taskName.value) {
+    console.warn('작업 이름을 입력해주세요.')
+    return false
+  }
+  if (!userName.value) {
+    console.warn('사용자 이름을 입력해주세요.')
+    return false
+  }
+  if (!selectedStatus.value) {
+    console.warn('상태를 선택해주세요.')
+    return false
+  }
+  return true
+}
+
 const addTask = () => {
+  if (!validateTask())
+    return
   const newTask = {
     x: [dayjs(rangePicker.value[0]).format('YYYY-MM-DD'), dayjs(rangePicker.value[1]).format('YYYY-MM-DD')],
     y: taskName.value,
     name: userName.value,
     status: selectedStatus.value,
   }
-
-  console.log(newTask)
+  chartData.value.datasets[0].data = [...chartData.value.datasets[0].data, newTask]
+  chartKey.value += 1
 }
+
+// const showTask = () => {
+//   const yScale = chartConfig.value.options.scales.y
+// }
 </script>
 
 <template>
@@ -67,7 +93,7 @@ const addTask = () => {
     />
     <BaseInput v-model="userName" placeholder="Input the Name" type="text" style="width: 200px;" />
     <BaseSelect v-model="selectedStatus" :options="statusOptions" style="width: 200px;" />
-    <BaseButton type="button" @click="addTask">
+    <BaseButton variant="primary" @click="addTask">
       Add Task
     </BaseButton>
   </div>

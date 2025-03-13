@@ -37,7 +37,6 @@ const hasError = computed(() => !!props.errorMessage)
       <input
         ref="inputInstance" v-model="model" class="input-field" :type="type" :placeholder="placeholder"
         :disabled="disabled" :minlength="minlength" :maxlength="maxlength" :readonly="readonly"
-        @input=""
       >
       <slot name="suffix" />
     </div>
