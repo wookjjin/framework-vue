@@ -154,6 +154,35 @@ const status = {
     ctx.fillText('Status', right + (paddingRight / 2), top - 15)
     ctx.restore()
   },
+}
+
+/**
+ * Weekend
+ */
+const weekend = {
+  id: 'weekend',
+  beforeDatasetsDraw(chart: Chart, args: unknown, pluginOptions: unknown) {
+    const {
+      ctx,
+      chartArea: { top, bottom, left, right, width, height },
+      scales: { x, y },
+    } = chart
+
+    ctx.save()
+
+    x.ticks.forEach((tick, index) => {
+      const day = new Date(tick.value).getDay()
+      if (day === 6 || day === 0) {
+        ctx.fillStyle = 'rgba(102, 102, 102, 0.2)'
+        ctx.fillRect(
+          x.getPixelForValue(tick.value),
+          top,
+          x.getPixelForValue(new Date(tick.value).setHours(24)) - x.getPixelForValue(tick.value),
+          height,
+        )
+      }
+    })
+  },
 };
 
 export const ganttChartConfig: ChartConfiguration<'bar'> = {
@@ -181,6 +210,11 @@ export const ganttChartConfig: ChartConfiguration<'bar'> = {
         },
         min: '2025-03-01',
         max: '2025-03-31',
+      },
+      y: {
+        min: 0,
+        max: 5,
+        labels: ['Task 1', 'Task 2', 'Task 3', 'Task 4', 'Task 5', 'Task 6', 'Task 7', 'Task 8', 'Task 9'],
       },
     },
     plugins: {
@@ -221,5 +255,6 @@ export const ganttChartConfig: ChartConfiguration<'bar'> = {
     todayLine,
     assignedTasks,
     status,
+    weekend,
   ],
 }
