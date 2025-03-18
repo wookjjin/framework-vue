@@ -22,8 +22,11 @@ const options2 = [{ value: 1, label: '옵션 1' }, { value: 2, label: '옵션 2'
     </div>
     <div class="flex flex-col gap-10px">
       <span>3. Error</span>
-      <div class="flex gap-10px">
+      <div class="base-checkbox-group has-error flex-col">
         <BaseCheckbox v-model="selectedCheckboxValues3" error :options="options1" :max="2" />
+        <div v-if="true" class="error-message">
+          Error Message
+        </div>
       </div>
     </div>
   </div>

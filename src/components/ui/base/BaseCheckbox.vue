@@ -1,75 +1,54 @@
 <script setup lang="ts">
-// 공통 인터페이스 정의
-interface Option {
-  value: string | number
-  label: string
+interface CheckboxProps {
+  label?: string
+  trueValue?: boolean
+  falseValue?: boolean
+  id?: string
   disabled?: boolean
 }
-const props = withDefaults(defineProps<{
-  options: Option[]
-  disabled?: boolean
-  error?: boolean
-  max?: number
-}>(), {
-  modelValue: () => [],
+
+const props = withDefaults(defineProps<CheckboxProps>(), {
+  label: '',
+  trueValue: true,
+  falseValue: false,
+  id: () => useId(),
   disabled: false,
-  error: false,
-  max: Infinity,
 })
 
-const emit = defineEmits<{
-  (e: 'change', value: (string | number)[]): void
-}>()
+const emit = defineEmits(['change'])
+const model = defineModel()
 
-const model = defineModel<(string | number)[]>({ default: [] })
+const checkboxValue = computed({
+  get() {
+    return model.value === props.trueValue
+  },
+  set(checked) {
+    model.value = checked ? props.trueValue : props.falseValue
+  },
+})
 
-const handleCheckboxToggle = (option: Option) => {
-  if (props.disabled || option.disabled)
+// 체크박스 변경 핸들러
+const handleChange = () => {
+  if (props.disabled)
     return
 
-  const currentValues = [...model.value]
-  const index = currentValues.indexOf(option.value)
+  const newValue = checkboxValue.value ? props.falseValue : props.trueValue
+  model.value = newValue
 
-  if (index > -1) {
-    currentValues.splice(index, 1)
-  }
-  else {
-    if (currentValues.length < props.max) {
-      currentValues.push(option.value)
-    }
-  }
+  emit('change', newValue)
 
-  model.value = currentValues
-  emit('change', currentValues)
+  console.log('체크박스 값 변경:', !checkboxValue.value, model.value)
 }
 </script>
 
 <template>
-  <div
-    class="base-checkbox-group" :class="{
-      'is-disabled': disabled,
-      'has-error': error,
-    }"
-  >
-    <div
-      v-for="option in options" :key="option.value" class="checkbox-option"
-      :class="{
-        'is-disabled': option.disabled || props.disabled,
-      }"
-      @click="handleCheckboxToggle(option)"
-    >
-      <div class="checkbox-input-wrapper">
-        <div
-          class="checkbox-input" :class="{
-            'is-selected': modelValue.includes(option.value),
-          }"
-        />
-      </div>
-      <label class="checkbox-label">{{ option.label }}</label>
+  <div class="checkbox-option" :class="{ 'is-disabled': disabled }">
+    <div class="checkbox-input-wrapper" @click="handleChange">
+      <div class="checkbox-input" :class="{ 'is-selected': checkboxValue }" />
     </div>
+    <label :for="id" class="checkbox-label" @click="handleChange">{{ label }}</label>
   </div>
 </template>
 
 <style scoped>
-
 </style>

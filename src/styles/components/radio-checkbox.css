@@ -92,3 +92,9 @@
 .base-checkbox-group.has-error .checkbox-input-wrapper {
   border-color: var(--error-color);
 }
+
+
+.base-radio-group.has-error,
+.base-checkbox-group.has-error .error-message {
+  color: var(--error-color)
+}
