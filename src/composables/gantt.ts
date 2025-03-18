@@ -20,15 +20,15 @@ export const ganttChartData: ChartData<any> = {
   datasets: [{
     label: 'Weekly Sales',
     data: [
-      { x: ['2025-03-03', '2025-03-06'], y: 'Task-1', name: 'James', status: 'completed' },
-      { x: ['2025-03-06', '2025-03-12'], y: 'Task-2', name: 'Luna', status: 'completed' },
-      { x: ['2025-03-09', '2025-03-12'], y: 'Task-3', name: 'David', status: 'completed' },
-      { x: ['2025-03-12', '2025-03-21'], y: 'Task-4', name: 'Lucy', status: 'completed' },
-      { x: ['2025-03-15', '2025-03-24'], y: 'Task-5', name: 'Lily', status: 'delayed' },
-      { x: ['2025-03-18', '2025-03-30'], y: 'Task-6', name: 'Santiago', status: 'pending' },
-      { x: ['2025-04-02', '2025-05-01'], y: 'Task-7', name: 'Lily', status: 'pending' },
-      { x: ['2025-04-18', '2025-05-14'], y: 'Task-8', name: 'David', status: 'pending' },
-      { x: ['2025-04-28', '2025-05-25'], y: 'Task-9', name: 'Santiago', status: 'pending' },
+      { x: ['2025-03-03', '2025-03-06'], y: 'Task 1', name: 'James', status: 'completed' },
+      { x: ['2025-03-06', '2025-03-12'], y: 'Task 2', name: 'Luna', status: 'completed' },
+      { x: ['2025-03-09', '2025-03-12'], y: 'Task 3', name: 'David', status: 'completed' },
+      { x: ['2025-03-12', '2025-03-21'], y: 'Task 4', name: 'Lucy', status: 'completed' },
+      { x: ['2025-03-15', '2025-03-24'], y: 'Task 5', name: 'Lily', status: 'delayed' },
+      { x: ['2025-03-18', '2025-03-30'], y: 'Task 6', name: 'Santiago', status: 'pending' },
+      { x: ['2025-04-02', '2025-05-01'], y: 'Task 7', name: 'Lily', status: 'pending' },
+      { x: ['2025-04-18', '2025-05-14'], y: 'Task 8', name: 'David', status: 'pending' },
+      { x: ['2025-04-28', '2025-05-25'], y: 'Task 9', name: 'Santiago', status: 'pending' },
     ],
     backgroundColor: (ctx: ScriptableContext<'bar'>) => {
       const dataPoint = ctx.raw as TGanttChartData; 
@@ -213,7 +213,7 @@ export const ganttChartConfig: ChartConfiguration<'bar'> = {
       },
       y: {
         min: 0,
-        max: 5,
+        max: 9,
         labels: ['Task 1', 'Task 2', 'Task 3', 'Task 4', 'Task 5', 'Task 6', 'Task 7', 'Task 8', 'Task 9'],
       },
     },
