@@ -51,12 +51,12 @@ provide<TabsInjection>(TabsSymbol, {
       ref="tabHeader" class="tabs-header" @pointerdown="onPointerDown" @pointermove="onPointerMove"
       @pointerup="onPointerUp" @pointerleave="onPointerUp"
     >
-      <button
+      <BaseButton
         v-for="tab in tabItems" :key="tab.id" class="tab-button" :class="{ active: activeTabId === tab.id }"
         @click="activateTab(tab.id)"
       >
         {{ tab.title }}
-      </button>
+      </BaseButton>
     </div>
     <div class="tab-content">
       <slot />
@@ -65,5 +65,32 @@ provide<TabsInjection>(TabsSymbol, {
 </template>
 
 <style scoped>
+.tab-button {
+  width: 160px;
+  padding: 12px 24px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  flex-shrink: 0;
+}
 
+.tab-button:hover {
+  color: white;
+}
+
+.tab-button.active {
+  background-color: var(--primary-green, #a8d5ba);
+  color: white;
+}
+
+.tab-button:focus {
+  box-shadow: none;
+}
 </style>
