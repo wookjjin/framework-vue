@@ -7,9 +7,17 @@ interface MenuItem {
   children?: MenuItem[]
 }
 
-withDefaults(defineProps<{
+const {
+  item = {
+    id: 0,
+    label: '',
+    parentId: '',
+    path: '',
+    children: [],
+  },
+} = defineProps<{
   item: MenuItem
-}>(), {})
+}>()
 
 const router = useRouter()
 const isOpen = ref(false)

@@ -5,16 +5,14 @@ interface Option {
   disabled?: boolean
 }
 
-const props = withDefaults(defineProps<{
+const {
+  disabled = false,
+  error = false,
+} = defineProps<{
   options: Option[]
-  name?: string
   disabled?: boolean
   error?: boolean
-}>(), {
-  name: 'radio-group',
-  disabled: false,
-  error: false,
-})
+}>()
 
 const emit = defineEmits<{
   (e: 'change', value: string | number): void
@@ -23,7 +21,7 @@ const emit = defineEmits<{
 const model = defineModel()
 
 const handleRadioSelect = (option: Option) => {
-  if (!props.disabled && !option.disabled) {
+  if (!disabled && !option.disabled) {
     model.value = option.value
     emit('change', option.value)
   }

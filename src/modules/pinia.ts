@@ -15,4 +15,4 @@ export const install: UserModule = ({ isClient, initialState, app }) => {
     pinia.state.value = initialState.pinia || {}
   else
     initialState.pinia = pinia.state.value
-}
+};

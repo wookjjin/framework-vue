@@ -13,19 +13,19 @@ interface Props {
   ripple?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  size: 'medium',
-  variant: 'primary',
-  disabled: false,
-  loading: false,
-  block: false,
-  rounded: false,
-  icon: '',
-  iconOnly: false,
-  nativeType: 'button',
-  ariaLabel: '',
-  ripple: true,
-})
+const {
+  size = 'medium',
+  variant = 'primary',
+  disabled = false,
+  loading = false,
+  block = false,
+  rounded = false,
+  icon = '',
+  iconOnly = false,
+  nativeType = 'button',
+  ariaLabel = '',
+  ripple = true,
+} = defineProps<Props>()
 
 const emit = defineEmits<{
   (e: 'click', event: MouseEvent): void
@@ -61,12 +61,12 @@ const createRipple = (event: MouseEvent) => {
 }
 
 const handleClick = (event: MouseEvent) => {
-  if (props.disabled || props.loading)
+  if (disabled || loading)
     return
 
   emit('click', event)
 
-  if (props.ripple) {
+  if (ripple) {
     createRipple(event)
   }
 }
