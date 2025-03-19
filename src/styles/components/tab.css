@@ -22,43 +22,6 @@
   /* 크롬, 사파리에서 스크롤바 숨기기 */
 }
 
-.tab-button {
-  width: 160px;
-  padding: 12px 24px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  color: var(--text-color);
-  font-weight: 500;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-}
-
-.tab-button {
-  padding: 12px 24px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  color: var(--text-color);
-  font-weight: 500;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  outline: none;
-}
-
-.tab-button:hover,
-.tab-button.active {
-  background-color: var(--primary-green, #a8d5ba);
-  color: white;
-}
-
-.tab-button:focus {
-  box-shadow: none !important;
-}
-
 .tab-content {
   margin: 60px 20px;
 }
