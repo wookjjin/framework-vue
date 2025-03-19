@@ -4,13 +4,13 @@ import { formatNumber } from '~/utils'
 export type TotalCount = number
 export type TotalLabel = string
 
-withDefaults(defineProps<{
+const {
+  totalCount = 0,
+  totalLabel = 'Total',
+} = defineProps<{
   totalCount?: TotalCount
   totalLabel?: TotalLabel
-}>(), {
-  totalCount: 0,
-  totalLabel: 'Total',
-})
+}>()
 </script>
 
 <template>

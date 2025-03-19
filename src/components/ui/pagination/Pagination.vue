@@ -8,24 +8,22 @@ export type LimitOption<T> = T extends {
   ? { label: string, value: string | number }
   : { cmmCdv: string, cmmCdvNm: string }
 
-const props = withDefaults(
-  defineProps<{
+const {
+  totalCount = 20,
+  pageVisibleCount = 10,
+  limitOptions = [
+    { label: '10개씩 보기', value: 10 },
+    { label: '30개씩 보기', value: 30 },
+    { label: '50개씩 보기', value: 50 },
+  ],
+  useLimitList = false,
+}
+  = defineProps<{
     totalCount: number
     pageVisibleCount?: number
     limitOptions?: LimitOption<any>[]
     useLimitList?: boolean
-  }>(),
-  {
-    totalCount: 20,
-    pageVisibleCount: 10,
-    limitOptions: () => [
-      { label: '10개씩 보기', value: 10 },
-      { label: '30개씩 보기', value: 30 },
-      { label: '50개씩 보기', value: 50 },
-    ],
-    useLimitList: false,
-  },
-)
+  }>()
 
 const emits = defineEmits<{
   (event: 'pageChangeEvent', page: number): void
@@ -39,14 +37,14 @@ const currentPageLimit = defineModel('currentPageLimit', {
   default: 10,
 })
 
-const totalPageCount = computed(() => Math.ceil(props.totalCount / currentPageLimit.value))
+const totalPageCount = computed(() => Math.ceil(totalCount / currentPageLimit.value))
 
 const startPage = computed(() => {
-  return Math.floor((currentPage.value - 1) / props.pageVisibleCount) * props.pageVisibleCount + 1
+  return Math.floor((currentPage.value - 1) / pageVisibleCount) * pageVisibleCount + 1
 })
 
 const endPage = computed(() => {
-  return Math.min(startPage.value + props.pageVisibleCount - 1, totalPageCount.value)
+  return Math.min(startPage.value + pageVisibleCount - 1, totalPageCount.value)
 })
 
 const visiblePages = computed(() => {

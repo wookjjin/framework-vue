@@ -2,13 +2,13 @@
 export type ProgressMessage = string
 export type ProgressType = 'CIRCLE' | 'BAR'
 
-withDefaults(defineProps<{
+const {
+  progressMessage = 'Please wait...',
+  progressType = 'BAR',
+} = defineProps<{
   progressMessage?: ProgressMessage
   progressType?: ProgressType
-}>(), {
-  progressMessage: 'Please wait...',
-  progressType: 'BAR',
-})
+}>()
 </script>
 
 <template>

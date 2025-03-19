@@ -7,17 +7,15 @@ export interface Column<T = Record<string, any>> {
   sortable?: boolean
 }
 
-const props = withDefaults(
-  defineProps<{
-    columns: Column<any>[]
-    rows: any[]
-    useCheckbox?: boolean
-  }>(),
-  {
-    rows: () => [],
-    useCheckbox: false,
-  },
-)
+const {
+  columns = [],
+  rows = [],
+  useCheckbox = false,
+} = defineProps<{
+  columns: Column<any>[]
+  rows: any[]
+  useCheckbox?: boolean
+}>()
 
 const emits = defineEmits<{
   (event: 'columnClickEvent', column: Column): void
@@ -30,12 +28,12 @@ const emits = defineEmits<{
 const selectedRows = ref<any[]>([])
 
 const visibleColumns = computed<Column<any>[]>(() => {
-  const cols = props.columns.map(column => ({
+  const cols = columns.map(column => ({
     ...column,
     align: column.align ?? 'left',
   }))
 
-  return props.useCheckbox
+  return useCheckbox
     ? ([{ key: 'checkbox', label: '', align: 'center' } as Column<any>, ...cols])
     : cols
 })
@@ -46,13 +44,13 @@ const activeSort = ref<{ key: string, direction: 'asc' | 'desc' | 'default' }>({
 })
 
 const isAllChecked = computed(() => {
-  if (props.rows.length === 0)
+  if (rows.length === 0)
     return false
-  return selectedRows.value.length === props.rows.length
+  return selectedRows.value.length === rows.length
 })
 
 const isIndeterminate = computed(() => {
-  return selectedRows.value.length > 0 && selectedRows.value.length < props.rows.length
+  return selectedRows.value.length > 0 && selectedRows.value.length < rows.length
 })
 
 const toggleAllSelection = () => {
@@ -60,7 +58,7 @@ const toggleAllSelection = () => {
     selectedRows.value = []
   }
   else {
-    selectedRows.value = [...props.rows]
+    selectedRows.value = [...rows]
   }
   emits('update:selectedRows', selectedRows.value)
 }

@@ -12,22 +12,22 @@ export interface Props {
   helperText?: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  type: 'text',
-  label: '',
-  placeholder: '',
-  disabled: false,
-  minlength: undefined,
-  maxlength: undefined,
-  readonly: false,
-  errorMessage: '',
-  helperText: '',
-})
+const {
+  type = 'text',
+  label = '',
+  placeholder = '',
+  disabled = false,
+  minlength = undefined,
+  maxlength = undefined,
+  readonly = false,
+  errorMessage = '',
+  helperText = '',
+} = defineProps<Props>()
 
 const model = defineModel({ default: '' })
 const inputInstance = ref<HTMLInputElement>()
 
-const hasError = computed(() => !!props.errorMessage)
+const hasError = computed(() => !!errorMessage)
 </script>
 
 <template>

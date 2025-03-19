@@ -1,5 +1,16 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
+const {
+  text = false,
+  size = 'medium',
+  width = '100%',
+  height = '100%',
+  isRound = false,
+  circle = false,
+  repeat = 1,
+  animation = 'pulse',
+  gap = '0.5rem',
+  className = '',
+} = defineProps<{
   text?: boolean // 텍스트 스켈레톤 여부
   size?: 'small' | 'medium' | 'large' // 스켈레톤 크기
   width?: string // 너비
@@ -10,18 +21,7 @@ const props = withDefaults(defineProps<{
   animation?: 'pulse' | 'wave' | 'none' // 애니메이션 종류
   gap?: string // 반복 요소 간격
   className?: string // 추가 클래스
-}>(), {
-  text: false,
-  size: 'medium',
-  width: '100%',
-  height: '100%',
-  isRound: false,
-  circle: false,
-  repeat: 1,
-  animation: 'pulse',
-  gap: '0.5rem',
-  className: '',
-})
+}>()
 
 // size에 따른 실제 높이 값을 계산
 const getHeight = (size: string, isText: boolean): string => {
@@ -34,15 +34,15 @@ const getHeight = (size: string, isText: boolean): string => {
     }
   }
   else {
-    return props.height
+    return height
   }
 }
 
 // 실제 계산된 높이
-const computedHeight = getHeight(props.size, props.text)
+const computedHeight = getHeight(size, text)
 
 // 스켈레톤 아이템 생성
-const items = Array.from({ length: props.repeat }, (_, index) => index)
+const items = Array.from({ length: repeat }, (_, index) => index)
 </script>
 
 <template>

@@ -3,16 +3,17 @@ import type { ITabProps, TabsInjection } from '~/types'
 import { DragScroll } from '~/composables/drag-scroll'
 import { TabsSymbol } from '~/types'
 
-const props = withDefaults(defineProps<ITabProps>(), {
-  defaultActiveId: '',
-})
+const {
+  tabItems = [],
+  defaultActiveId = '',
+} = defineProps<ITabProps>()
 
 const emit = defineEmits<{
   (e: 'update:activeId', id: string): void
   (e: 'change', id: string): void
 }>()
 
-const activeTabId = ref(props.defaultActiveId || (props.tabItems.length > 0 ? props.tabItems[0].id : ''))
+const activeTabId = ref(defaultActiveId || (tabItems.length > 0 ? tabItems[0].id : ''))
 const tabHeader = ref<HTMLElement | null>(null)
 const dragScroll = ref<DragScroll | null>(null)
 

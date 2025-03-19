@@ -2,14 +2,14 @@
 import type { ITabPanelProps, TabsInjection } from '~/types'
 import { TabsSymbol } from '~/types'
 
-const props = defineProps<ITabPanelProps>()
+const { id = '' } = defineProps<ITabPanelProps>()
 const tabs = inject<TabsInjection>(TabsSymbol)
 
 if (!tabs) {
   throw new Error('TabPanel must be used within TabContainer')
 }
 
-const isActive = computed(() => tabs.activeTabId.value === props.id)
+const isActive = computed(() => tabs.activeTabId.value === id)
 </script>
 
 <template>

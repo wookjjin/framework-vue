@@ -8,11 +8,11 @@ export interface TreeNode {
   children?: TreeNode[]
 }
 
-withDefaults(defineProps<{
+const {
+  showCheckbox = true,
+} = defineProps<{
   showCheckbox?: boolean
-}>(), {
-  showCheckbox: true,
-})
+}>()
 
 // defineModel을 사용하여 부모로부터 트리 데이터를 받아옴
 const treeData = defineModel<TreeNode[]>('treeData', { required: true })

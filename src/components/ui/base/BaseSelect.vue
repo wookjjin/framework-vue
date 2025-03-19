@@ -5,18 +5,19 @@ export interface SelectOption {
   disabled?: boolean
 }
 
-const props = withDefaults(defineProps<{
+const {
+  options = [],
+  label = '',
+  placeholder = '선택해주세요',
+  disabled = false,
+  error = false,
+} = defineProps<{
   options: SelectOption[]
   label?: string
   placeholder?: string
   disabled?: boolean
   error?: boolean
-}>(), {
-  label: '',
-  placeholder: '선택해주세요',
-  disabled: false,
-  error: false,
-})
+}>()
 
 const emit = defineEmits<{
   (e: 'change', value: string | number): void
@@ -29,7 +30,7 @@ const dropdownRef = ref<HTMLElement | null>(null)
 const dropDirection = ref<'down' | 'up'>('down')
 
 const selectedOption = computed(() =>
-  props.options.find(option => option.value === model.value),
+  options.find(option => option.value === model.value),
 )
 
 const updateDropdownPosition = () => {
@@ -37,7 +38,7 @@ const updateDropdownPosition = () => {
     return
 
   const selectRect = selectRef.value.getBoundingClientRect()
-  const dropdownHeight = dropdownRef.value.offsetHeight
+  // const dropdownHeight = dropdownRef.value.offsetHeight
 
   // 화면 아래쪽 여유 공간 계산
   const spaceBelow = window.innerHeight - selectRect.bottom
@@ -46,7 +47,7 @@ const updateDropdownPosition = () => {
   const spaceAbove = selectRect.top
 
   // 아래쪽 공간이 드롭다운 높이보다 작고 위쪽 공간이 더 크면 위로 표시
-  if (spaceBelow < dropdownHeight && spaceAbove > spaceBelow) {
+  if (spaceAbove > spaceBelow) {
     dropDirection.value = 'up'
   }
   else {
@@ -55,7 +56,7 @@ const updateDropdownPosition = () => {
 }
 
 const selectOption = (option: SelectOption) => {
-  if (!option.disabled && !props.disabled) {
+  if (!option.disabled && !disabled) {
     model.value = option.value
     emit('change', option.value)
     isOpen.value = false
@@ -63,7 +64,7 @@ const selectOption = (option: SelectOption) => {
 }
 
 const toggleDropdown = () => {
-  if (!props.disabled) {
+  if (!disabled) {
     isOpen.value = !isOpen.value
     if (isOpen.value) {
       nextTick(() => {

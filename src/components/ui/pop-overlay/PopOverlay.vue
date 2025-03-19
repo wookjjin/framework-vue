@@ -10,17 +10,17 @@ interface Props {
   width?: string
   height?: string
 }
-withDefaults(defineProps<Props>(), {
-  title: 'PopOverlay',
-  showClose: true,
-  showHeader: true,
-  showFooter: true,
-  confirmText: '확인',
-  cancelText: '취소',
-  closeOnOverlayClick: true,
-  width: '500px',
-  height: '450px'
-})
+const {
+  title = 'PopOverlay',
+  showClose = true,
+  showHeader = true,
+  showFooter = true,
+  confirmText = '확인',
+  cancelText = '취소',
+  closeOnOverlayClick = true,
+  width = '500px',
+  height = '450px',
+} = defineProps<Props>()
 
 const emit = defineEmits(['confirm', 'cancel', 'close'])
 
@@ -65,7 +65,7 @@ onUnmounted(() => {
   <Teleport to="body">
     <Transition name="overlay-fade">
       <div v-if="isShow" class="overlay-backdrop" @click="closeOnOverlayClick && close">
-        <div class="overlay" :style="{ 'width': width, 'height': height }" @click.stop>
+        <div class="overlay" :style="{ width, height }" @click.stop>
           <header v-if="$slots.header || showHeader" class="overlay-header">
             <slot name="header">
               <h2 class="overlay-title">

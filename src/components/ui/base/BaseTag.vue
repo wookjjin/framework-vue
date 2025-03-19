@@ -7,13 +7,13 @@ interface TagProps {
   size?: 'small' | 'medium' | 'large'
 }
 
-withDefaults(defineProps<TagProps>(), {
-  text: 'Tag',
-  color: '#70c0e8',
-  shape: 'round',
-  closable: false,
-  size: 'medium',
-})
+const {
+  text = 'Tag',
+  color = '#70c0e8',
+  shape = 'round',
+  closable = false,
+  size = 'medium',
+} = defineProps<TagProps>()
 
 const emit = defineEmits(['close'])
 
