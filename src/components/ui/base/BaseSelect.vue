@@ -38,7 +38,6 @@ const updateDropdownPosition = () => {
     return
 
   const selectRect = selectRef.value.getBoundingClientRect()
-  // const dropdownHeight = dropdownRef.value.offsetHeight
 
   // 화면 아래쪽 여유 공간 계산
   const spaceBelow = window.innerHeight - selectRect.bottom

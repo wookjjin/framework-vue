@@ -24,9 +24,24 @@ const {
   helperText = '',
 } = defineProps<Props>()
 
+const emit = defineEmits<{
+  (event: 'focus', eventDetail: FocusEvent): void
+  (event: 'blur', eventDetail: FocusEvent): void
+  (event: 'input', eventDetail: Event): void
+}>()
+
 const model = defineModel({ default: '' })
 const inputInstance = ref<HTMLInputElement>()
 
+const handleFocus = (event: FocusEvent) => {
+  emit('focus', event)
+}
+const handleBlur = (event: FocusEvent) => {
+  emit('blur', event)
+}
+const handleInput = (event: Event) => {
+  emit('input', event)
+}
 const hasError = computed(() => !!errorMessage)
 </script>
 
@@ -36,7 +51,8 @@ const hasError = computed(() => !!errorMessage)
     <div class="input-container">
       <input
         ref="inputInstance" v-model="model" class="input-field" :type="type" :placeholder="placeholder"
-        :disabled="disabled" :minlength="minlength" :maxlength="maxlength" :readonly="readonly"
+        :disabled="disabled" :minlength="minlength" :maxlength="maxlength" :readonly="readonly" @focus="handleFocus"
+        @blur="handleBlur" @input="handleInput"
       >
       <slot name="suffix" />
     </div>

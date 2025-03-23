@@ -41,6 +41,15 @@ export const ganttChartData: ChartData<any> = {
 }
 
 /**
+ * LabelArray
+ */
+const labelList = ganttChartData.datasets[0].data.map((dataPoint: { y: any }, index: any) => {
+  return dataPoint.y
+});
+
+const labelFilter = [...new Set(labelList)]
+
+/**
  * TodayLine
  */
 const todayLine: any = {
@@ -137,16 +146,18 @@ const status = {
     ctx.font = 'bolder 12px FontAwesome'
     ctx.textBaseline = 'middle'
     ctx.textAlign = 'center'
+
     ganttChartData.datasets[0].data.forEach((dataPoint: { status: keyof typeof icons }, index: any) => {
-      ctx.beginPath()
-      ctx.fillStyle = colors[dataPoint.status]
-      ctx.arc(right + (paddingRight / 2), y.getPixelForValue(index), 12, 0, angle * 360, false)
-      ctx.closePath()
-      ctx.fill()
+      if (y.getPixelForValue(index) > top && y.getPixelForValue(index) < bottom) {
+        ctx.beginPath()
+        ctx.fillStyle = colors[dataPoint.status]
+        ctx.arc(right + (paddingRight / 2), y.getPixelForValue(index), 12, 0, angle * 360, false)
+        ctx.closePath()
+        ctx.fill()
 
-      ctx.fillStyle = 'white'
-      ctx.fillText(icons[dataPoint.status], right + (paddingRight / 2), y.getPixelForValue(index))
-
+        ctx.fillStyle = 'white'
+        ctx.fillText(icons[dataPoint.status], right + (paddingRight / 2), y.getPixelForValue(index))
+      }
     });
     // Series
     ctx.font = 'bolder 12px sans-serif'
@@ -214,7 +225,7 @@ export const ganttChartConfig: ChartConfiguration<'bar'> = {
       y: {
         min: 0,
         max: 9,
-        labels: ['Task 1', 'Task 2', 'Task 3', 'Task 4', 'Task 5', 'Task 6', 'Task 7', 'Task 8', 'Task 9'],
+        labels: labelFilter as string[],
       },
     },
     plugins: {
