@@ -18,7 +18,6 @@ export interface KanbanProps {
   newTaskName?: string
 }
 
-/* ---------------- Kanban Properties ------------------- */
 const {
   useAddGroup = false,
   addGroupButtonName = '+ Add Group',
@@ -36,7 +35,6 @@ const emits = defineEmits<{
   (event: 'taskRemoveEvent', task: KanbanTask): void
 }>()
 
-/* ---------------- Model Value ------------------- */
 const columns = defineModel<KanbanColumn[]>('columns', {
   default: [
     {
@@ -47,12 +45,14 @@ const columns = defineModel<KanbanColumn[]>('columns', {
   required: true,
 })
 const tasks = defineModel<KanbanTask[]>('tasks', { default: [] })
+
 const tasksByColumn = computed<Record<string, KanbanTask[]>>(() => {
   return columns.value.reduce((acc, column) => {
     acc[column.key] = tasks.value.filter(row => row.key === column.key)
     return acc
   }, {} as Record<string, KanbanTask[]>)
 })
+
 const draggingColumn = ref<number | null>(null)
 const dragOverColumn = ref<number | null>(null)
 const draggingTask = ref<KanbanTask | null>(null)
@@ -63,7 +63,6 @@ const getTaskCount = (columnKey: string): number => {
   return tasksByColumn.value[columnKey]?.length || 0
 }
 
-/* ---------------- functions ------------------- */
 const addColumn = () => {
   const newKey = `Group-${columns.value.length + 1}`
   columns.value.push({
@@ -87,27 +86,27 @@ const useEditable = (column: KanbanColumn) => {
 }
 
 const columnDetailEvent = (targetColumn: KanbanColumn) => {
-  console.log('detail-target-column :: ', targetColumn)
   emits('columnDetailEvent', targetColumn)
 }
 
 const columnRemoveEvent = (targetColumn: KanbanColumn) => {
-  console.log('remove-target-column::', targetColumn)
+  columns.value = columns.value.filter(col => col.key !== targetColumn.key)
+  tasks.value = tasks.value.filter(task => task.key !== targetColumn.key)
   emits('columnRemoveEvent', targetColumn)
 }
 
 const taskClickEvent = (targetTask: KanbanTask) => {
-  console.log('click-target-task ::', targetTask)
   emits('taskClickEvent', targetTask)
 }
 
 const taskRemoveEvent = (targetTask: KanbanTask) => {
-  console.log('remove-target-task ::', targetTask)
+  tasks.value = tasks.value.filter(task => task.id !== targetTask.id)
   emits('taskRemoveEvent', targetTask)
 }
 
-/* ---------------- drag feature ------------------- */
-const onGroupDragStart = (index: number) => {
+/* ---------------- drag feature with type distinction ------------------- */
+const onGroupDragStart = (e: DragEvent, index: number) => {
+  e.dataTransfer?.setData('type', 'group')
   draggingColumn.value = index
 }
 
@@ -115,19 +114,21 @@ const onGroupDragOver = (index: number) => {
   dragOverColumn.value = index
 }
 
-const onGroupDrop = () => {
+const onGroupDrop = (e: DragEvent) => {
+  const type = e.dataTransfer?.getData('type')
+  if (type !== 'group')
+    return
   if (draggingColumn.value === null || dragOverColumn.value === null)
     return
   const draggedItem = columns.value.splice(draggingColumn.value, 1)[0]
   columns.value.splice(dragOverColumn.value, 0, draggedItem)
   draggingColumn.value = null
   dragOverColumn.value = null
-  console.log('drag-end-event-result-by-columns::', columns.value)
-  console.log('drag-end-event-result-by-tasks::', tasks.value)
   emits('dragEnd', columns.value, tasks.value)
 }
 
-const onTaskDragStart = (task: KanbanTask) => {
+const onTaskDragStart = (e: DragEvent, task: KanbanTask) => {
+  e.dataTransfer?.setData('type', 'task')
   draggingTask.value = task
 }
 
@@ -136,40 +137,37 @@ const onTaskDragOver = (columnKey: string, taskId: string | null) => {
   dropTaskId.value = taskId
 }
 
-const onTaskDrop = () => {
+const onTaskDrop = (e: DragEvent) => {
+  const type = e.dataTransfer?.getData('type')
+  if (type !== 'task')
+    return
   if (!draggingTask.value || !dragOverColumnKey.value)
     return
 
-  // 드래그된 Task 의 현재 인덱스 찾기
   const sourceIndex = tasks.value.findIndex(t => t.id === draggingTask.value?.id)
   if (sourceIndex === -1)
     return
 
-  // 기존 위치에서 Task 제거
   const [movedTask] = tasks.value.splice(sourceIndex, 1)
-
-  // 새로운 Column 으로 이동
   movedTask.key = dragOverColumnKey.value
 
-  // 놓여지는 위치에 특정 Task ID 가 있는 경우, 해당 위치의 다음 인덱스로 추가
   if (dropTaskId.value) {
     const dropIndex = tasks.value.findIndex(t => t.id === dropTaskId.value)
     if (dropIndex !== -1) {
-      tasks.value.splice(dropIndex + 1, 0, movedTask) // dropTaskId 다음 위치에 추가
+      tasks.value.splice(dropIndex, 0, movedTask)
     }
     else {
-      tasks.value.push(movedTask) // ID 가 없으면 끝에 추가
+      tasks.value.push(movedTask)
     }
   }
   else {
-    // 해당 Column 에 Task 가 하나도 없는 경우도 정상 처리
-    tasks.value.push(movedTask)
+    const lastIndex = tasks.value.findLastIndex(t => t.key === dragOverColumnKey.value)
+    tasks.value.splice(lastIndex + 1, 0, movedTask)
   }
 
   draggingTask.value = null
   dragOverColumnKey.value = null
   dropTaskId.value = null
-
   emits('dragEnd', columns.value, tasks.value)
 }
 </script>
@@ -178,8 +176,13 @@ const onTaskDrop = () => {
   <div class="kanban-board-container">
     <div class="kanban-board">
       <ul
-        v-for="(column, index) in columns" :key="`kanban-group-${column.key}`" class="kanban-column" draggable="true"
-        @dragstart.stop="onGroupDragStart(index)" @dragover.prevent="onGroupDragOver(index)" @drop="onGroupDrop"
+        v-for="(column, index) in columns"
+        :key="`kanban-group-${column.key}`"
+        class="kanban-column"
+        draggable="true"
+        @dragstart.stop="e => onGroupDragStart(e, index)"
+        @dragover.prevent="onGroupDragOver(index)"
+        @drop="onGroupDrop"
       >
         <slot :name="`column-${column.key}`">
           <div class="kanban-header">
@@ -216,24 +219,33 @@ const onTaskDrop = () => {
               </slot>
             </div>
           </div>
-          <div
-            v-if="tasksByColumn[column.key]?.length === 0" class="kanban-empty"
-            @dragover.prevent="onTaskDragOver(column.key, null)" @drop="onTaskDrop"
-          >
-            Empty List
-          </div>
         </slot>
+        <template v-if="!tasksByColumn[column.key].length">
+          <div
+            class="kanban-empty-drop-zone"
+            :class="{ 'active-drop-zone': dragOverColumnKey === column.key && dropTaskId === null }"
+            @dragover.prevent="onTaskDragOver(column.key, null)"
+            @drop="onTaskDrop"
+          >
+            No Task
+          </div>
+        </template>
         <li
-          v-for="task in tasksByColumn[column.key]" :key="task.id" class="kanban-card" draggable="true"
-          @dragstart.stop="onTaskDragStart(task)" @dragover.prevent="onTaskDragOver(column.key, task.id)"
+          v-for="task in tasksByColumn[column.key]"
+          :key="task.id"
+          class="kanban-card"
+          draggable="true"
+          @dragstart.stop="e => onTaskDragStart(e, task)"
+          @dragover.prevent="onTaskDragOver(column.key, task.id)"
           @drop="onTaskDrop"
+          @click="() => taskClickEvent(task)"
         >
           <slot :name="`task-${column.key}`" :task="task">
             <div class="kanban-task">
               <span>{{ task.title }}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="icon" @click.stop="taskRemoveEvent(task)"
+                stroke="currentColor" class="task-delete-icon" @click.stop="taskRemoveEvent(task)"
               >
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
               </svg>

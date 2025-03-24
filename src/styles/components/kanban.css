@@ -60,16 +60,6 @@
   scrollbar-color: #0e83ff #e9ecef;
 }
 
-.kanban-column:has(.kanban-card:hover),
-.kanban-column:has(.kanban-card:active) {
-  background-color: #f5f8fa;
-  border: 2px dashed #aac8e4;
-}
-
-.kanban-column:hover {
-  transform: translateY(-4px);
-}
-
 .kanban-column input {
   max-width: calc(100% - 48px);
   text-align: left;
@@ -96,19 +86,6 @@
   vertical-align: center;
 }
 
-.kanban-empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 80px;
-  background: #f8f9fa;
-  color: #aaa;
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 8px;
-  transition: background 0.2s ease-in-out, border 0.2s ease-in-out;
-}
-
 .kanban-icons {
   border:none;
   display: flex;
@@ -125,12 +102,12 @@
   width: 20px;
   height: 20px;
   cursor: pointer;
-  color: #555;
+  color: #007bff;
   transition: color 0.2s ease-in-out;
 }
 
 .icon:hover {
-  color: #007bff;
+  color: #000;
 }
 
 .kanban-card {
@@ -195,6 +172,22 @@
   transform: translateY(-2px);
 }
 
+.kanban-empty-drop-zone {
+  padding: 12px;
+  border-radius: 8px;
+  border: dashed 1px #777;
+  align-items: center;
+  text-align: left;
+  font-size: 1rem;
+  color: #777;
+}
+
+.kanban-empty-drop-zone.active-drop-zone {
+  border: dashed 1px #007bff;
+  color: #007bff;
+}
+
+
 .kanban-add-task {
   padding: 12px;
   margin-top: 8px;
@@ -212,6 +205,18 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
   background-color: #d4edda;
+}
+
+.task-delete-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  color: #000;
+  transition: color 0.2s ease-in-out;
+}
+
+.task-delete-icon:hover {
+  color: #007bff;
 }
 
 @media (max-width: 768px) {
